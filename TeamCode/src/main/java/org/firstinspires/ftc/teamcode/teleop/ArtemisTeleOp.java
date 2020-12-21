@@ -42,7 +42,7 @@ public class ArtemisTeleOp extends OpMode {
     /**
      * OpMode members declared
      * **/
-    public ElapsedTime robotRuntime;
+//    public ElapsedTime robotRuntime;
     public DcMotor leftDriveMotor;
     public DcMotor rightDriveMotor;
     /**
@@ -56,10 +56,11 @@ public class ArtemisTeleOp extends OpMode {
          * **/
         leftDriveMotor = hardwareMap.get(DcMotor.class,"Left-Motor");
         rightDriveMotor = hardwareMap.get(DcMotor.class, "Right-Motor");
-
+        leftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         /**
          *Since we are putting the motors on different sides we need to reverse direction
-         * so that one wheel doesnt pull us backwards
+         * so that one wheel doesn't pull us backwards
          * **/
         leftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         rightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
@@ -71,14 +72,16 @@ public class ArtemisTeleOp extends OpMode {
     @Override
     public void start(){
         telemetry.addData("Robot in Play Mode in TeleOp","Get Ready to control");
-        robotRuntime.reset();
+//        robotRuntime.reset();
     }
     /**
      * This is called MULTIPLE TIMES when the driver presses the play button
      * **/
     @Override
     public void loop(){
-        telemetry.addData("Robot Runtime", robotRuntime.toString());
+//        telemetry.addData("Robot Runtime", robotRuntime.toString());
+        leftDriveMotor.setPower(0.5);
+        rightDriveMotor.setPower(0.5);
     }
     /**
      * This is callecd ONCE when the driver presses the stop button
