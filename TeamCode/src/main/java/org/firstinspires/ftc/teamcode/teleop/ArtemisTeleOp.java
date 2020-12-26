@@ -35,16 +35,16 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 //imports physical hardware to manipulate
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
 @TeleOp(name = "Artemis TeleOp")
 public class ArtemisTeleOp extends OpMode {
     /**
      * OpMode members declared
      * **/
-//    public ElapsedTime robotRuntime;
-    public DcMotor leftDriveMotor;
-    public DcMotor rightDriveMotor;
+    public DcMotor topLeftDriveMotor;
+    public DcMotor bottomLeftDriveMotor;
+    public DcMotor topRightDriveMotor;
+    public DcMotor bottomRightDriveMotor;
     /**
      * This is called ONCE when the driver presses the init button
      * **/
@@ -54,16 +54,25 @@ public class ArtemisTeleOp extends OpMode {
         /**
          * Hardware initialized and String Names are in the Configuration File
          * **/
-        leftDriveMotor = hardwareMap.get(DcMotor.class,"Left-Motor");
-        rightDriveMotor = hardwareMap.get(DcMotor.class, "Right-Motor");
-        leftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        rightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLeftDriveMotor = hardwareMap.get(DcMotor.class,"Top-Left-Motor");
+        bottomLeftDriveMotor = hardwareMap.get(DcMotor.class, "Bottom-Left-Motor");
+        topRightDriveMotor = hardwareMap.get(DcMotor.class, "Top-Right-Motor");
+        bottomRightDriveMotor = hardwareMap.get(DcMotor.class, "Bottom-Right-Motor");
+
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         /**
          *Since we are putting the motors on different sides we need to reverse direction
          * so that one wheel doesn't pull us backwards
          * **/
-        leftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
-        rightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        topLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        bottomLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        topRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        bottomRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+
         telemetry.addData("Robot Hardware Initialized Successfully in TeleOp", "Press Play to Start");
     }
     /***
@@ -72,19 +81,19 @@ public class ArtemisTeleOp extends OpMode {
     @Override
     public void start(){
         telemetry.addData("Robot in Play Mode in TeleOp","Get Ready to control");
-//        robotRuntime.reset();
     }
     /**
      * This is called MULTIPLE TIMES when the driver presses the play button
      * **/
     @Override
     public void loop(){
-//        telemetry.addData("Robot Runtime", robotRuntime.toString());
-        leftDriveMotor.setPower(0.5);
-        rightDriveMotor.setPower(0.5);
+        topLeftDriveMotor.setPower(0.5);
+        bottomLeftDriveMotor.setPower(0.5);
+        topRightDriveMotor.setPower(0.5);
+        bottomRightDriveMotor.setPower(0.5);
     }
     /**
-     * This is callecd ONCE when the driver presses the stop button
+     * This is called ONCE when the driver presses the stop button
      * **/
     @Override
     public void stop(){
