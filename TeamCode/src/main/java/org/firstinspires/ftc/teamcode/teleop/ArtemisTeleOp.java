@@ -27,13 +27,20 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * This is the teleop package
+ * **/
 package org.firstinspires.ftc.teamcode.teleop;
 
-//imports OpMode class and the TeleOp declaration
+/**
+ * Imports OpMode class and the TeleOp declaration
+ * **/
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-//imports physical hardware to manipulate
+/**
+ *Imports physical hardware to manipulate
+ * **/
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "Artemis TeleOp")
@@ -52,27 +59,28 @@ public class ArtemisTeleOp extends OpMode {
     public void init(){
         telemetry.addData("Robot Initialized Successfully in TeleOp"," Wait for hardware to initialize");
         /**
-         * Hardware initialized and String Names are in the Configuration File
+         * Hardware initialized and String Names are in the Configuration File for Hardware Map
          * **/
         topLeftDriveMotor = hardwareMap.get(DcMotor.class,"Top-Left-Motor");
         bottomLeftDriveMotor = hardwareMap.get(DcMotor.class, "Bottom-Left-Motor");
         topRightDriveMotor = hardwareMap.get(DcMotor.class, "Top-Right-Motor");
         bottomRightDriveMotor = hardwareMap.get(DcMotor.class, "Bottom-Right-Motor");
 
+        /**
+         * Allow the motors to be run with encoders
+         * **/
         topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         /**
-         *Since we are putting the motors on different sides we need to reverse direction
-         * so that one wheel doesn't pull us backwards
+         *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
          * **/
         topLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         bottomLeftDriveMotor.setDirection(DcMotor.Direction.FORWARD);
         topRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
         bottomRightDriveMotor.setDirection(DcMotor.Direction.REVERSE);
-
         telemetry.addData("Robot Hardware Initialized Successfully in TeleOp", "Press Play to Start");
     }
     /***
