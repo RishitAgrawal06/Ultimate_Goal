@@ -30,7 +30,7 @@
 /**
  * This is the teleop package
  * **/
-package org.firstinspires.ftc.teamcode.teleop;
+package org.firstinspires.ftc.teamcode.TeleOp;
 
 /**
  * Imports OpMode class and the TeleOp declaration

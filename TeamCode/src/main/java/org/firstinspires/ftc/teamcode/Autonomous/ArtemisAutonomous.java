@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.autonomous;
+package org.firstinspires.ftc.teamcode.Autonomous;
 
 //imports OpMode class and the TeleOp symbol
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
