@@ -28,7 +28,7 @@
  */
 
 /**
- * This is the teleop package
+ * This is the TeleOp package
  * **/
 package org.firstinspires.ftc.teamcode.TeleOp;
 
@@ -38,8 +38,19 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
+/**
+ * Imports the Artemis Hardware Map Class which initializes all the hardware once the user presses the INIT button
+ * **/
 import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
 
+/**
+ * The name attribute specifies the OpMode name on the robot controller and group attribute specifies the group
+ * in which that OpMode is located
+ * **/
+/**
+ * This class uses the controller inputs such as joysticks and triggers and dynamically calls various methods in the
+ * (imported) Hardware map class once these inputs are called
+ * **/
 @TeleOp(name = "Artemis TeleOp")
 public class ArtemisTeleOp extends OpMode {
     /**
@@ -57,7 +68,7 @@ public class ArtemisTeleOp extends OpMode {
      * */
     @Override
     public void start(){
-        telemetry.addData("Robot in Play Mode in TeleOp","Get Ready to control");
+        telemetry.addData("Robot in Play Mode in TeleOp","Control the Robot Now");
     }
     /**
      * This is called MULTIPLE TIMES when the driver presses the play button

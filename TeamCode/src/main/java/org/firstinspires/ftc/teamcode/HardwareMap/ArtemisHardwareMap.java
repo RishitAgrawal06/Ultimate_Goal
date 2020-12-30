@@ -27,6 +27,9 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+/**
+ * This is the HardwareMap package
+ * **/
 package org.firstinspires.ftc.teamcode.HardwareMap;
 
 /**
@@ -35,26 +38,44 @@ package org.firstinspires.ftc.teamcode.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+/**
+ * This program is not an OpMode. Instead it initialize all the hardware including motors and servos and
+ * provides various methods on how to get it to move and turn(A helper class)
+ * **/
 public class ArtemisHardwareMap {
     /**
      * OpMode members declared
+     * **/
+
+    /**
+     * These motors are the 4 mecanum wheels of our robot
      * **/
     public DcMotor topLeftDriveMotor;
     public DcMotor bottomLeftDriveMotor;
     public DcMotor topRightDriveMotor;
     public DcMotor bottomRightDriveMotor;
 
-    /* local OpMode members. */
+    /**
+     * DO NOT REMOVE. This hardware map will use the parent hardware map which contains all the names of the parts
+     * in which we will use in this class to map and set methods for
+     * **/
     HardwareMap hwMap;
 
-    /* Constructor */
+    /**
+     * Constructor for the ArtemisHardwareMap method in case we need it
+     * **/
     public ArtemisHardwareMap(){
 
     }
 
-    /* Initialize standard Hardware interfaces */
+    /**
+     * This method initializes all the motors and servos using the parent hardware map
+     * **/
     public void init(HardwareMap ahwMap) {
-        // Save reference to Hardware map
+        
+        /**
+         * Assigns the parent hardware map to local ArtemisHardwareMap class variable
+         * **/
         hwMap = ahwMap;
 
         /**
@@ -82,11 +103,11 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
 
         /**
-         *The motors are set to 0 power to keep it from moving when the user presses the INIT button
+         *The 4 mecanum wheel motors are set to 0 power to keep it from moving when the user presses the INIT button
          * **/
-        topLeftDriveMotor.setPower(0.5);
-        bottomLeftDriveMotor.setPower(0.5);
-        topRightDriveMotor.setPower(0.5);
-        bottomRightDriveMotor.setPower(0.5);
+        topLeftDriveMotor.setPower(0);
+        bottomLeftDriveMotor.setPower(0);
+        topRightDriveMotor.setPower(0);
+        bottomRightDriveMotor.setPower(0);
     }
 }
