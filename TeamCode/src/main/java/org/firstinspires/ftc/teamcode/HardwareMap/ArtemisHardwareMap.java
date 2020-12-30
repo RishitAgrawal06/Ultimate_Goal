@@ -1,4 +1,3 @@
-
 /* Copyright (c) 2017 FIRST. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without modification,
@@ -30,43 +29,23 @@
 
 package org.firstinspires.ftc.teamcode.HardwareMap;
 
+/**
+ *Imports physical hardware to manipulate
+ * **/
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
-/**
- * This is NOT an opmode.
- *
- * This class can be used to define all the specific hardware for a single robot.
- * In this case that robot is a Pushbot.
- * See PushbotTeleopTank_Iterative and others classes starting with "Pushbot" for usage examples.
- *
- * This hardware class assumes the following device names have been configured on the robot:
- * Note:  All names are lower case and some have single spaces between words.
- *
- * Motor channel:  Left  drive motor:        "left_drive"
- * Motor channel:  Right drive motor:        "right_drive"
- * Motor channel:  Manipulator drive motor:  "left_arm"
- * Servo channel:  Servo to open left claw:  "left_hand"
- * Servo channel:  Servo to open right claw: "right_hand"
- */
 
 public class ArtemisHardwareMap {
-    /* Public OpMode members. */
-    public DcMotor  leftDrive   = null;
-    public DcMotor  rightDrive  = null;
-    public DcMotor  leftArm     = null;
-    public Servo    leftClaw    = null;
-    public Servo    rightClaw   = null;
-
-    public static final double MID_SERVO       =  0.5 ;
-    public static final double ARM_UP_POWER    =  0.45 ;
-    public static final double ARM_DOWN_POWER  = -0.45 ;
+    /**
+     * OpMode members declared
+     * **/
+    public DcMotor topLeftDriveMotor;
+    public DcMotor bottomLeftDriveMotor;
+    public DcMotor topRightDriveMotor;
+    public DcMotor bottomRightDriveMotor;
 
     /* local OpMode members. */
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    HardwareMap hwMap;
 
     /* Constructor */
     public ArtemisHardwareMap(){
@@ -78,28 +57,36 @@ public class ArtemisHardwareMap {
         // Save reference to Hardware map
         hwMap = ahwMap;
 
-        // Define and Initialize Motors
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        rightDrive = hwMap.get(DcMotor.class, "right_drive");
-        leftArm    = hwMap.get(DcMotor.class, "left_arm");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        rightDrive.setDirection(DcMotor.Direction.REVERSE);// Set to FORWARD if using AndyMark motors
+        /**
+         * Hardware initialized and String Names are in the Configuration File for Hardware Map
+         * **/
+        topLeftDriveMotor = hwMap.get(DcMotor.class,"Top-Left-Motor");
+        bottomLeftDriveMotor = hwMap.get(DcMotor.class, "Bottom-Left-Motor");
+        topRightDriveMotor = hwMap.get(DcMotor.class, "Top-Right-Motor");
+        bottomRightDriveMotor = hwMap.get(DcMotor.class, "Bottom-Right-Motor");
 
-        // Set all motors to zero power
-        leftDrive.setPower(0);
-        rightDrive.setPower(0);
-        leftArm.setPower(0);
+        /**
+         * Allow the motors to be run with encoders
+         * **/
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        // Set all motors to run without encoders.
-        // May want to use RUN_USING_ENCODERS if encoders are installed.
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        rightDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        leftArm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        /**
+         *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
+         * **/
+        topLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        bottomLeftDriveMotor.setDirection(DcMotor.Direction.REVERSE);
+        topRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
+        bottomRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
 
-        // Define and initialize ALL installed servos.
-        leftClaw  = hwMap.get(Servo.class, "left_hand");
-        rightClaw = hwMap.get(Servo.class, "right_hand");
-        leftClaw.setPosition(MID_SERVO);
-        rightClaw.setPosition(MID_SERVO);
+        /**
+         *The motors are set to 0 power to keep it from moving when the user presses the INIT button
+         * **/
+        topLeftDriveMotor.setPower(0.5);
+        bottomLeftDriveMotor.setPower(0.5);
+        topRightDriveMotor.setPower(0.5);
+        bottomRightDriveMotor.setPower(0.5);
     }
 }
