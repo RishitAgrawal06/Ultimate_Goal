@@ -56,10 +56,10 @@ public class ArtemisTeleOp extends OpMode {
     /**
      * This is called ONCE when the driver presses the init button
      * **/
+    ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
     @Override
     public void init(){
         telemetry.addData("Robot Initialized Successfully in TeleOp"," Wait for hardware to initialize");
-        ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
         hardwareMapInitialize.init(hardwareMap);
         telemetry.addData("Robot Hardware Initialized Successfully in TeleOp", "Press Play to Start");
     }
@@ -75,7 +75,18 @@ public class ArtemisTeleOp extends OpMode {
      * **/
     @Override
     public void loop(){
-
+        double yValue = -gamepad1.left_stick_y;
+        if(yValue > 0){
+            telemetry.addData("Moving","Forwards");
+            hardwareMapInitialize.moveRobot(yValue);
+        }else if(yValue < 0){
+            telemetry.addData("Moving","Backwards");
+            hardwareMapInitialize.moveRobot(yValue);
+        }
+        else{
+            telemetry.addData("Moving", "Not Moving");
+            hardwareMapInitialize.moveRobot(0);
+        }
     }
     /**
      * This is called ONCE when the driver presses the stop button

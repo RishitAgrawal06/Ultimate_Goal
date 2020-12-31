@@ -72,7 +72,7 @@ public class ArtemisHardwareMap {
      * This method initializes all the motors and servos using the parent hardware map
      * **/
     public void init(HardwareMap ahwMap) {
-        
+
         /**
          * Assigns the parent hardware map to local ArtemisHardwareMap class variable
          * **/
@@ -109,5 +109,14 @@ public class ArtemisHardwareMap {
         bottomLeftDriveMotor.setPower(0);
         topRightDriveMotor.setPower(0);
         bottomRightDriveMotor.setPower(0);
+    }
+    /**
+     * This method takes in the gamepad y value and sets the motors to that y value to make it move
+     * */
+    public void moveRobot(double num){
+        topLeftDriveMotor.setPower(num);
+        bottomLeftDriveMotor.setPower(num);
+        topRightDriveMotor.setPower(num);
+        bottomRightDriveMotor.setPower(num);
     }
 }
