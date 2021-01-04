@@ -87,12 +87,12 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor = hwMap.get(DcMotor.class, "Bottom-Right-Motor");
 
         /**
-         * Allow the motors to be run with encoders
+         * Allow the motors to be run without encoders
          * **/
-        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         /**
          *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
@@ -103,6 +103,14 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
 
         /**
+         * We are setting the motor 0 mode power to be brake as it actively stops the robot and doesn't rely on the surface to slow down once the robot power is set to 0
+         * **/
+        topLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bottomLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        topRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        bottomRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        /**
          *The 4 mecanum wheel motors are set to 0 power to keep it from moving when the user presses the INIT button
          * **/
         topLeftDriveMotor.setPower(0);
@@ -111,12 +119,12 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor.setPower(0);
     }
     /**
-     * This method takes in the gamepad y value and sets the motors to that y value to make it move
+     * This method takes in the left stick Y/X values and the right stick X values to allow for mecanum wheel strafing
      * */
-    public void moveRobot(double num){
-        topLeftDriveMotor.setPower(num);
-        bottomLeftDriveMotor.setPower(num);
-        topRightDriveMotor.setPower(num);
-        bottomRightDriveMotor.setPower(num);
+    public void moveRobot(double leftStickY, double leftStickX, double rightStickX){
+        topLeftDriveMotor.setPower(leftStickY + leftStickX + rightStickX);
+        bottomLeftDriveMotor.setPower(leftStickY - leftStickX + rightStickX);
+        topRightDriveMotor.setPower(leftStickY - leftStickX - rightStickX);
+        bottomRightDriveMotor.setPower(leftStickY + leftStickX - rightStickX);
     }
 }

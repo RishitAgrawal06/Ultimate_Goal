@@ -75,18 +75,18 @@ public class ArtemisTeleOp extends OpMode {
      * **/
     @Override
     public void loop(){
-        double yValue = -gamepad1.left_stick_y;
-        if(yValue > 0){
+        double leftStickY = -gamepad1.left_stick_y;
+        double leftStickX =  gamepad1.left_stick_x*1.5;
+        double rightStickX = gamepad1.right_stick_x;
+        if(leftStickY > 0){
             telemetry.addData("Moving","Forwards");
-            hardwareMapInitialize.moveRobot(yValue);
-        }else if(yValue < 0){
+        }else if(leftStickY < 0){
             telemetry.addData("Moving","Backwards");
-            hardwareMapInitialize.moveRobot(yValue);
         }
         else{
             telemetry.addData("Moving", "Not Moving");
-            hardwareMapInitialize.moveRobot(0);
         }
+        hardwareMapInitialize.moveRobot(leftStickY,leftStickX,rightStickX);
     }
     /**
      * This is called ONCE when the driver presses the stop button
