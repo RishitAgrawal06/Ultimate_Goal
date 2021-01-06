@@ -76,7 +76,7 @@ public class ArtemisTeleOp extends OpMode {
     @Override
     public void loop(){
         double leftStickY = -gamepad1.left_stick_y;
-        double leftStickX =  gamepad1.left_stick_x*1.5;
+        double leftStickX =  gamepad1.left_stick_x * 1.5;
         double rightStickX = gamepad1.right_stick_x;
         if(leftStickY > 0){
             telemetry.addData("Moving","Forwards");

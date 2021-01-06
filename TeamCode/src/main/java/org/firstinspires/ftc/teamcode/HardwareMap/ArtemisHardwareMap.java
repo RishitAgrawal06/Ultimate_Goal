@@ -56,6 +56,13 @@ public class ArtemisHardwareMap {
     public DcMotor bottomRightDriveMotor;
 
     /**
+     * These motors are the intake, conveyor, and shooter of the robot
+     * **/
+    public DcMotor intakeMotor;
+    public DcMotor conveyorMotor;
+    public DcMotor shooterMotor;
+
+    /**
      * DO NOT REMOVE. This hardware map will use the parent hardware map which contains all the names of the parts
      * in which we will use in this class to map and set methods for
      * **/
@@ -86,13 +93,24 @@ public class ArtemisHardwareMap {
         topRightDriveMotor = hwMap.get(DcMotor.class, "Top-Right-Motor");
         bottomRightDriveMotor = hwMap.get(DcMotor.class, "Bottom-Right-Motor");
 
+        intakeMotor = hwMap.get(DcMotor.class, "Intake-Motor");
+        conveyorMotor = hwMap.get(DcMotor.class,"Conveyor-Motor");
+        shooterMotor = hwMap.get(DcMotor.class,"Shooter-Motor");
+
         /**
-         * Allow the motors to be run without encoders
+         * Allow the 4 wheel motors to be run with encoders since need to track rotations in Auton
          * **/
-        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        /**
+         * No need for the intake, conveyor and shooter motors to track rotations so we run it without encoders
+         * **/
+        intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        conveyorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         /**
          *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
@@ -109,17 +127,26 @@ public class ArtemisHardwareMap {
         bottomLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         topRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bottomRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        conveyorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /**
-         *The 4 mecanum wheel motors are set to 0 power to keep it from moving when the user presses the INIT button
+         *The 4 mecanum wheel motors, intake, conveyor, and shooter are set to 0 power to keep it from moving when the user presses the INIT button
          * **/
         topLeftDriveMotor.setPower(0);
         bottomLeftDriveMotor.setPower(0);
         topRightDriveMotor.setPower(0);
         bottomRightDriveMotor.setPower(0);
+        intakeMotor.setPower(0);
+        conveyorMotor.setPower(0);
+        shooterMotor.setPower(0);
     }
     /**
-     * This method takes in the left stick Y/X values and the right stick X values to allow for mecanum wheel strafing
+     * This method takes in 3 inputs : Left Stick X/Y and Right Stick X
+     * - Left Stick Y moves the robot forwards and backwards(Positive value forwards and Negative value backwards)
+     * - Left Stick X introduces strafing to the robot left and right( Positive value makes topLeft and bottomRight motors run which goes right and negative makes bottomLeft and topRight motors move which goes left)
+     * -Right Stick X allows the robot to turn left or right(Positive value makes left motors turn more hence going right and negative value makes right motors turn more hence going left)
      * */
     public void moveRobot(double leftStickY, double leftStickX, double rightStickX){
         topLeftDriveMotor.setPower(leftStickY + leftStickX + rightStickX);
