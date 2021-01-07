@@ -75,6 +75,9 @@ public class ArtemisTeleOp extends OpMode {
      * **/
     @Override
     public void loop(){
+        /**
+         * Gamepad inputs for moving and turning the robot
+         * **/
         double leftStickY = -gamepad1.left_stick_y;
         double leftStickX =  gamepad1.left_stick_x * 1.5;
         double rightStickX = gamepad1.right_stick_x;
@@ -87,10 +90,34 @@ public class ArtemisTeleOp extends OpMode {
             telemetry.addData("Moving", "Not Moving");
         }
         hardwareMapInitialize.moveRobot(leftStickY,leftStickX,rightStickX);
+
+        /**
+         * Gamepad inputs for intaking, conveying, and shooting a ring
+         * **/
+        boolean aFlatButton = gamepad1.a;
+        if(aFlatButton){
+            telemetry.addData("Moving", "Rings");
+            hardwareMapInitialize.travelRing();
+        }
+        else{
+            telemetry.addData("Not Moving", "Rings");
+            hardwareMapInitialize.stopTravelRings();
+        }
+
+        boolean xFlatButton = gamepad1.x;
+        if(xFlatButton){
+            telemetry.addData("Shooting","Rings");
+            hardwareMapInitialize.shootRings();
+        }
+        else{
+            telemetry.addData("Not Shooting","Rings");
+            hardwareMapInitialize.stopShootingRings();
+        }
     }
     /**
      * This is called ONCE when the driver presses the stop button
      * **/
+
     @Override
     public void stop(){
         telemetry.addData("Robot has Stopped and Wont Move","Controller Inputs Now Disabled");
