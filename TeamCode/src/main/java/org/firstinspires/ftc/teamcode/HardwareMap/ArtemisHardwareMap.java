@@ -123,8 +123,8 @@ public class ArtemisHardwareMap {
         /**
          * Reverses shooter motor to shoot the correct way
          * **/
-        //TODO set shooter motor to reverse
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
+
         /**
          * We are setting the motor 0 mode power to be brake as it actively stops the robot and doesn't rely on the surface to slow down once the robot power is set to 0
          * **/
@@ -132,6 +132,10 @@ public class ArtemisHardwareMap {
         bottomLeftDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         topRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         bottomRightDriveMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        /**
+         * Intake, conveyor, and shooter motors set to brake as there is no surface for it to slow down for float
+         * **/
         intakeMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         conveyorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -143,6 +147,7 @@ public class ArtemisHardwareMap {
         bottomLeftDriveMotor.setPower(0);
         topRightDriveMotor.setPower(0);
         bottomRightDriveMotor.setPower(0);
+
         intakeMotor.setPower(0);
         conveyorMotor.setPower(0);
         shooterMotor.setPower(0);
@@ -164,23 +169,16 @@ public class ArtemisHardwareMap {
      * This method takes in 1 input : the A button
      * Once the A button is pressed, we set the intake and conveyor motors to max power
      * **/
-    public void travelRing(){
-        intakeMotor.setPower(1);
-        conveyorMotor.setPower(1);
-    }
-    public void stopTravelRings(){
-        intakeMotor.setPower(0);
-        conveyorMotor.setPower(0);
+    public void transportRings(int speed){
+        intakeMotor.setPower(speed);
+        conveyorMotor.setPower(speed);
     }
 
     /**
      * This method takes in 1 input: the X button
      * Once the X button is pressed, we set the shooter motor to max power
      * **/
-    public void shootRings(){
-        shooterMotor.setPower(1);
-    }
-    public void stopShootingRings(){
-        shooterMotor.setPower(0);
+    public void shootRings(int speed){
+        shooterMotor.setPower(speed);
     }
 }

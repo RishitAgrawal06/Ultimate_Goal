@@ -95,24 +95,12 @@ public class ArtemisTeleOp extends OpMode {
          * Gamepad inputs for intaking, conveying, and shooting a ring
          * **/
         boolean aFlatButton = gamepad1.a;
-        if(aFlatButton){
-            telemetry.addData("Moving", "Rings");
-            hardwareMapInitialize.travelRing();
-        }
-        else{
-            telemetry.addData("Not Moving", "Rings");
-            hardwareMapInitialize.stopTravelRings();
-        }
+        telemetry.addData(aFlatButton ? "Transporting " : "Not Transporting ","Rings");
+        hardwareMapInitialize.transportRings(aFlatButton ? 1 : 0);
 
         boolean xFlatButton = gamepad1.x;
-        if(xFlatButton){
-            telemetry.addData("Shooting","Rings");
-            hardwareMapInitialize.shootRings();
-        }
-        else{
-            telemetry.addData("Not Shooting","Rings");
-            hardwareMapInitialize.stopShootingRings();
-        }
+        telemetry.addData(xFlatButton ? "Shooting " :"Not Shooting ", "Rings");
+        hardwareMapInitialize.shootRings(xFlatButton ? 1 : 0);
     }
     /**
      * This is called ONCE when the driver presses the stop button
