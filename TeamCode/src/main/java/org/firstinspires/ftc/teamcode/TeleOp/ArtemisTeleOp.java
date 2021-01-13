@@ -53,16 +53,19 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
  * **/
 @TeleOp(name = "Artemis TeleOp")
 public class ArtemisTeleOp extends OpMode {
+
     /**
      * This is called ONCE when the driver presses the init button
      * **/
     ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
+
     @Override
     public void init(){
         telemetry.addData("Robot Initialized Successfully in TeleOp"," Wait for hardware to initialize");
         hardwareMapInitialize.init(hardwareMap);
         telemetry.addData("Robot Hardware Initialized Successfully in TeleOp", "Press Play to Start");
     }
+
     /***
      * This is called ONCE when the driver presses the play button
      * */
@@ -70,6 +73,7 @@ public class ArtemisTeleOp extends OpMode {
     public void start(){
         telemetry.addData("Robot in Play Mode in TeleOp","Control the Robot Now");
     }
+
     /**
      * This is called MULTIPLE TIMES when the driver presses the play button
      * **/
@@ -102,10 +106,10 @@ public class ArtemisTeleOp extends OpMode {
         telemetry.addData(xFlatButton ? "Shooting " :"Not Shooting ", "Rings");
         hardwareMapInitialize.shootRings(xFlatButton ? 1 : 0);
     }
+
     /**
      * This is called ONCE when the driver presses the stop button
      * **/
-
     @Override
     public void stop(){
         telemetry.addData("Robot has Stopped and Wont Move","Controller Inputs Now Disabled");

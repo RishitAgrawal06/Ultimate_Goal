@@ -36,8 +36,8 @@ package org.firstinspires.ftc.teamcode.HardwareMap;
  *Imports physical hardware to manipulate
  * **/
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
 /**
  * This program is not an OpMode. Instead it initialize all the hardware including motors and servos and
  * provides various methods on how to get it to move and turn(A helper class)
@@ -61,6 +61,13 @@ public class ArtemisHardwareMap {
     public DcMotor intakeMotor;
     public DcMotor conveyorMotor;
     public DcMotor shooterMotor;
+
+    /**
+     * These are the 3 servos of the robot
+     * **/
+    public Servo servoOne;
+    public Servo servoTwo;
+    public Servo servoThree;
 
     /**
      * DO NOT REMOVE. This hardware map will use the parent hardware map which contains all the names of the parts
@@ -97,6 +104,9 @@ public class ArtemisHardwareMap {
         conveyorMotor = hwMap.get(DcMotor.class,"Conveyor-Motor");
         shooterMotor = hwMap.get(DcMotor.class,"Shooter-Motor");
 
+        servoOne = hwMap.get(Servo.class, "Servo-One");
+        servoTwo = hwMap.get(Servo.class, "Servo-Two");
+        servoThree = hwMap.get(Servo.class, "Servo-Three");
         /**
          * Allow the 4 wheel motors to be run with encoders since need to track rotations in Auton
          * **/
@@ -151,7 +161,15 @@ public class ArtemisHardwareMap {
         intakeMotor.setPower(0);
         conveyorMotor.setPower(0);
         shooterMotor.setPower(0);
+
+        /**
+         * The 3 servos need to be initialized at the midpoint(0.5) using servo_name.setPosition()
+         * **/
+        servoOne.setPosition(0.5);
+        servoTwo.setPosition(0.5);
+        servoThree.setPosition(0.5);
     }
+
     /**
      * This method takes in 3 inputs : Left Stick X/Y and Right Stick X
      * - Left Stick Y moves the robot forwards and backwards(Positive value forwards and Negative value backwards)
@@ -180,5 +198,22 @@ public class ArtemisHardwareMap {
      * **/
     public void shootRings(int speed){
         shooterMotor.setPower(speed);
+    }
+
+    /**
+     * These methods takes in only 1 input: either the Y button or the B button
+     * If the Y button is pressed, we set a positive position for the servo.
+     * If the B button is pressed, we set a negative position for the servo
+     * **/
+    public void setServoOnePosition(double position){
+        servoOne.setPosition(position);
+    }
+
+    public void setServoTwoPosition(double position){
+        servoTwo.setPosition(position);
+    }
+
+    public void setServoThreePosition(double position){
+        servoThree.setPosition(position);
     }
 }
