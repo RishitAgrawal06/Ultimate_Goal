@@ -26,7 +26,6 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
 /**
  * This is the TeleOp package
  * **/
@@ -105,6 +104,18 @@ public class ArtemisTeleOp extends OpMode {
         boolean xFlatButton = gamepad1.x;
         telemetry.addData(xFlatButton ? "Shooting " :"Not Shooting ", "Rings");
         hardwareMapInitialize.shootRings(xFlatButton ? 1 : 0);
+
+        /**
+         * Gamepad inputs for manipulating a servo
+         * **/
+        boolean yFlatButton = gamepad1.y;
+        if(yFlatButton){
+            hardwareMapInitialize.setServoOnePosition(1);
+        }
+        boolean bFlatButton = gamepad1.b;
+        if(bFlatButton){
+            hardwareMapInitialize.setServoOnePosition(0);
+        }
     }
 
     /**
