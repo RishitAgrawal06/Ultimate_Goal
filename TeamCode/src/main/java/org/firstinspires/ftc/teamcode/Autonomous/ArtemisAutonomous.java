@@ -75,9 +75,19 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
 @Autonomous(name = "Artemis Autonomous")
 public class ArtemisAutonomous extends OpMode {
 
+    /**
+     * This stores our instance of the Vuforia localization engine and the license key.
+     */
+    private static final String VUFORIA_KEY = "AZFZpQv/////AAABma3flO1LSErYoIle7LztDPNRoW1dHp8UeguAk39po+KNco8nBQHysaMDKgzW/BH4Ue3+xmBKFZGWOesaq1FWHBHBpX3v4xlIImr1jMgxvbMvripQmY6vApS6VM3KkX1zkJ/pjj0iZ0BPExCxFC3aEY/GdRhb6QVtsmQ156Un7by4Awrqhub1Hwu5Ve+tBaapU8jaEuxjGU3AtURKMvDibswkbdbMG4d8QqCKf2Eh4tXbeWds1ox6wdolhkQrZTdFuITJc/nW9bM0nh95hQPRBRA5hQl6KWRyCCcRTvfbVggppr5MFMGICuc/TxXnYknRYBjVH9jRWiVcJrOPmad0qTOn8/e9ZrtD8ofS9sW51mTO";
+    private VuforiaLocalizer vuforia;
+
+    /**
+     * This stores our instance of the TensorFlow Object Detection engine and the corresponding ring variables.
+     */
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
+    private TFObjectDetector tfod;
 
     /**
      * This is called ONCE when the driver presses the init button
@@ -88,10 +98,40 @@ public class ArtemisAutonomous extends OpMode {
     public void init(){
         telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
         hardwareMapInitialize.init(hardwareMap);
+        initVuforia();
+        initTfod();
         telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
     }
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+    }
+
+    /**
+     * Initialize the Vuforia localization engine.
+     */
+    private void initVuforia() {
+        /*
+         * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
+         */
+        VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
+
+        parameters.vuforiaLicenseKey = VUFORIA_KEY;
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+
+        //  Instantiate the Vuforia engine
+        vuforia = ClassFactory.getInstance().createVuforia(parameters);
+    }
+
+    /**
+     * Initialize the TensorFlow Object Detection engine.
+     */
+    private void initTfod() {
+        int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
+        tfodParameters.minResultConfidence = 0.8f;
+        tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
+        tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 }
