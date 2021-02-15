@@ -98,13 +98,46 @@ public class ArtemisAutonomous extends OpMode {
     public void init(){
         telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
         hardwareMapInitialize.init(hardwareMap);
+        telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
+
         initVuforia();
         initTfod();
-        telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
+
+        if(tfod != null){
+            tfod.activate();
+        }
     }
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                // step through the list of recognitions and display boundary info.
+                int i = 0;
+                for (Recognition recognition : updatedRecognitions) {
+                    telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                    telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                            recognition.getLeft(), recognition.getTop());
+                    telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                            recognition.getRight(), recognition.getBottom());
+                }
+                telemetry.update();
+            }
+        }
+    }
+
+    @Override
+    public void stop(){
+        /**
+         * If the user presses the stop button, then end tensorflow object detection
+         * **/
+        if (tfod != null) {
+            tfod.shutdown();
+        }
     }
 
     /**
