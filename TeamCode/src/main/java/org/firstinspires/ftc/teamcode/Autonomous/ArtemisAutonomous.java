@@ -88,6 +88,7 @@ public class ArtemisAutonomous extends OpMode {
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
     private TFObjectDetector tfod;
+    private String numberOfRings = "Zero";
 
     /**
      * This is called ONCE when the driver presses the init button
@@ -107,9 +108,9 @@ public class ArtemisAutonomous extends OpMode {
             tfod.activate();
         }
     }
+
     @Override
-    public void loop(){
-        telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+    public void init_loop(){
         if (tfod != null) {
             // getUpdatedRecognitions() will return null if no new information is available since
             // the last time that call was made.
@@ -133,11 +134,11 @@ public class ArtemisAutonomous extends OpMode {
 
                         // check label to see which target zone to go after.
                         if (recognition.getLabel().equals("Single")) {
-                            telemetry.addData("Target Zone", "B");
+                            numberOfRings = "One";
                         } else if (recognition.getLabel().equals("Quad")) {
-                            telemetry.addData("Target Zone", "C");
+                            numberOfRings = "Four";
                         } else {
-                            telemetry.addData("Target Zone", "UNKNOWN");
+                            numberOfRings= "Zero";
                         }
                     }
                 }
@@ -146,7 +147,14 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     @Override
+    public void loop(){
+        telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+        telemetry.addData(numberOfRings,"");
+    }
+
+    @Override
     public void stop(){
+        telemetry.addData("Robot Status Autonomous: ", "Has Stopped");
         /**
          * If the user presses the stop button, then end tensorflow object detection
          * **/
