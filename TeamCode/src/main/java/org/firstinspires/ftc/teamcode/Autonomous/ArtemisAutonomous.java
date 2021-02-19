@@ -33,10 +33,11 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
 /**
- * Imports OpMode class and the Autonomous declaration
+ * Imports OpMode class and the Autonomous declaration and Elapsed Time
  * **/
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * Imports the list collection from Java
@@ -69,9 +70,7 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
  * This class uses Tensorflow lite along with the webcam to dynamically choose wheter to score points via wobble goal
  * or shooting rings all on its own
  * **/
-//TODO Import hardware map and initialize it
-//1. import artemis hardmare map
-//2. call the initialize method on that hardware map object
+
 @Autonomous(name = "Artemis Autonomous")
 public class ArtemisAutonomous extends OpMode {
 
@@ -88,12 +87,13 @@ public class ArtemisAutonomous extends OpMode {
     private static final String LABEL_FIRST_ELEMENT = "Quad";
     private static final String LABEL_SECOND_ELEMENT = "Single";
     private TFObjectDetector tfod;
-    private String numberOfRings = "Zero";
+    private int numberOfRings = 0;
 
     /**
      * This is called ONCE when the driver presses the init button
      * **/
     ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
+    private ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void init(){
@@ -120,7 +120,7 @@ public class ArtemisAutonomous extends OpMode {
                 if(updatedRecognitions.size() == 0){
                     // empty list.  no objects recognized.
                     telemetry.addData("TFOD", "No items detected.");
-                    telemetry.addData("Target Zone", "A");
+                    numberOfRings = 0;
                 }else{
                     // list is not empty.
                     // step through the list of recognitions and display boundary info.
@@ -134,11 +134,11 @@ public class ArtemisAutonomous extends OpMode {
 
                         // check label to see which target zone to go after.
                         if (recognition.getLabel().equals("Single")) {
-                            numberOfRings = "One";
+                            numberOfRings = 1;
                         } else if (recognition.getLabel().equals("Quad")) {
-                            numberOfRings = "Four";
+                            numberOfRings = 4;
                         } else {
-                            numberOfRings= "Zero";
+                            numberOfRings= 0;
                         }
                     }
                 }
@@ -149,7 +149,12 @@ public class ArtemisAutonomous extends OpMode {
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
-        telemetry.addData(numberOfRings,"");
+        if (numberOfRings == 0||numberOfRings == 1) {
+            goWobbleFirst();
+        }
+        else{
+            goRingsFirst();
+        }
     }
 
     @Override
@@ -166,6 +171,7 @@ public class ArtemisAutonomous extends OpMode {
     /**
      * Initialize the Vuforia localization engine.
      */
+
     private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -189,5 +195,13 @@ public class ArtemisAutonomous extends OpMode {
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+
+    public void goWobbleFirst(){
+        telemetry.addData("Runtime: ",runtime.seconds()+"");
+    }
+
+    public void goRingsFirst(){
+        telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 }
