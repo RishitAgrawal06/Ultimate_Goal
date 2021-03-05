@@ -169,6 +169,49 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     /**
+     * Robot will either go place the wobble first or shoot the rings first
+     * **/
+
+    public void goWobbleFirst(){
+        //count: 26s
+        //1. Move forward till end of field 4s
+        //3. Strafe right till reach box 1s
+        //4. Drop and release wobble goal 3
+
+        //5. Strafe back left to a bit left of wobble goal 2s
+        //6. Go back to start of field 3s
+        //7. Go a bit right and latch on to wobble goal 1s
+
+        //8. Move forwards half of field 2s
+        //9. strafe right 1s
+        //10. shoot rings 4s
+
+        //11. Move forwards half of field 2s
+        //12. strafe right 1s
+        //13. Drop and release wobble goal 26s
+        telemetry.addData("Runtime: ",runtime.seconds()+"");
+    }
+
+    public void goRingsFirst(){
+        //count: 24s
+        //1. Move forwards half field 2s
+        //2. Strafe right a bit 1s
+        //3. Shoot rings 4s
+
+        //4. turn 180 1.5s
+        //5. move forwards and get rings and intake 4s
+        //6. turn 180 1.5
+
+        //7. move forwards a bit  2s
+        //8. shoot 4s
+
+        //9. move forwards half of field 2s
+        //10. strafe right 1s
+        //11. drop wobble 1s
+        telemetry.addData("Runtime: ",runtime.seconds()+"");
+    }
+
+    /**
      * Initialize the Vuforia localization engine.
      */
 
@@ -195,13 +238,5 @@ public class ArtemisAutonomous extends OpMode {
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
-    }
-
-    public void goWobbleFirst(){
-        telemetry.addData("Runtime: ",runtime.seconds()+"");
-    }
-
-    public void goRingsFirst(){
-        telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 }
