@@ -149,11 +149,14 @@ public class ArtemisAutonomous extends OpMode {
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
-        if (numberOfRings == 0||numberOfRings == 1) {
-            goWobbleFirst();
+        if (numberOfRings == 0) {
+            zeroRing();
+        }
+        else if(numberOfRings == 1){
+            oneRing();
         }
         else{
-            goRingsFirst();
+            fourRings();
         }
     }
 
@@ -172,13 +175,32 @@ public class ArtemisAutonomous extends OpMode {
      * Robot will either go place the wobble first or shoot the rings first
      * **/
 
-    public void goWobbleFirst(){
-        //count: 26s
-        //1. Move forward till end of field 4s
+    public void zeroRing(){
+        //count: 24s
+        //1. Move forward till half of field 2s
         //3. Strafe right till reach box 1s
-        //4. Drop and release wobble goal 3
+        //4. Drop and release wobble goal 3s
 
         //5. Strafe back left to a bit left of wobble goal 2s
+        //6. Go back to start of field 2s
+        //7. Go a bit right and latch on to wobble goal 1s
+
+        //8. Move forwards half of field 2s
+        //9. strafe right 1s
+        //10. shoot rings 4s
+
+        //12. strafe right 1s
+        //13. Drop and release wobble goal 3s
+        //14. strafe top left and align
+        telemetry.addData("Runtime: ",runtime.seconds()+"");
+    }
+
+    public void oneRing(){
+        //count: 25s
+        //1. Move forward till 3/4 of field 3s
+        //3. Strafe right till reach box 1s
+        //4. Drop and release wobble goal 3s
+
         //6. Go back to start of field 3s
         //7. Go a bit right and latch on to wobble goal 1s
 
@@ -186,14 +208,14 @@ public class ArtemisAutonomous extends OpMode {
         //9. strafe right 1s
         //10. shoot rings 4s
 
-        //11. Move forwards half of field 2s
-        //12. strafe right 1s
-        //13. Drop and release wobble goal 26s
+        //12. move forwards 1s
+        //13. Drop and release wobble goal 3s
+        //14. go back to launch line 2s
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
-    public void goRingsFirst(){
-        //count: 24s
+    public void fourRings(){
+        //count: 27s
         //1. Move forwards half field 2s
         //2. Strafe right a bit 1s
         //3. Shoot rings 4s
@@ -208,6 +230,9 @@ public class ArtemisAutonomous extends OpMode {
         //9. move forwards half of field 2s
         //10. strafe right 1s
         //11. drop wobble 1s
+
+        //12. turn 180 1.5s
+        //13. move half field 2s
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
