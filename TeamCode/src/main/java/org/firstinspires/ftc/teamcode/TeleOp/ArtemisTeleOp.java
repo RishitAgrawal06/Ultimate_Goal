@@ -34,6 +34,8 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 /**
  * Imports OpMode class and the TeleOp declaration
  * **/
+import android.net.wifi.p2p.WifiP2pManager;
+
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -106,15 +108,27 @@ public class ArtemisTeleOp extends OpMode {
         hardwareMapInitialize.shootRings(xFlatButton ? 1 : 0);
 
         /**
-         * Gamepad inputs for manipulating a servo
+         * Gamepad inputs for manipulating the hand servo and the arm motor
          * **/
-        boolean yFlatButton = gamepad1.y;
-        if(yFlatButton){
-            hardwareMapInitialize.setServoOnePosition(1);
+        double positiveArmPower = gamepad1.right_trigger;
+        double negativeArmPower = -gamepad1.left_trigger;
+        boolean loose = gamepad1.right_bumper;
+
+        if(positiveArmPower!=0 || negativeArmPower !=0){
+            if(positiveArmPower>negativeArmPower){
+                hardwareMapInitialize.moveArm(positiveArmPower);
+            }
+            else{
+                hardwareMapInitialize.moveArm(negativeArmPower);
+            }
+        }else{
+            hardwareMapInitialize.moveArm(0);
         }
-        boolean bFlatButton = gamepad1.b;
-        if(bFlatButton){
-            hardwareMapInitialize.setServoOnePosition(0);
+        if(loose){
+            hardwareMapInitialize.loosen();
+        }
+        else{
+            hardwareMapInitialize.tighten();
         }
     }
 

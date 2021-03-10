@@ -63,11 +63,10 @@ public class ArtemisHardwareMap {
     public DcMotor shooterMotor;
 
     /**
-     * These are the 3 servos of the robot
+     * These are the 1 hand servo and 1 arm motor of the robot
      * **/
-    public Servo servoOne;
-    public Servo servoTwo;
-    public Servo servoThree;
+    public Servo handServo;
+    public DcMotor armMotor;
 
     /**
      * DO NOT REMOVE. This hardware map will use the parent hardware map which contains all the names of the parts
@@ -104,9 +103,8 @@ public class ArtemisHardwareMap {
         conveyorMotor = hwMap.get(DcMotor.class,"Conveyor-Motor");
         shooterMotor = hwMap.get(DcMotor.class,"Shooter-Motor");
 
-        servoOne = hwMap.get(Servo.class, "Servo-One");
-        servoTwo = hwMap.get(Servo.class, "Servo-Two");
-        servoThree = hwMap.get(Servo.class, "Servo-Three");
+        handServo = hwMap.get(Servo.class, "Hand-Servo");
+        armMotor = hwMap.get(DcMotor.class, "Arm-Motor");
         /**
          * Allow the 4 wheel motors to be run with encoders since need to track rotations in Auton
          * **/
@@ -121,6 +119,11 @@ public class ArtemisHardwareMap {
         intakeMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         conveyorMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        /**
+         * No need for encoders for the arm motor
+         * **/
+        armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         /**
          *Since we are putting the motors on different sides we need to reverse direction so that one wheel doesn't pull us backwards
@@ -150,6 +153,11 @@ public class ArtemisHardwareMap {
         conveyorMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         shooterMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        /***
+         * Arm motor will set to break as there is no friction in the air
+         * */
+        armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
         /**
          *The 4 mecanum wheel motors, intake, conveyor, and shooter are set to 0 power to keep it from moving when the user presses the INIT button
          * **/
@@ -162,12 +170,12 @@ public class ArtemisHardwareMap {
         conveyorMotor.setPower(0);
         shooterMotor.setPower(0);
 
+        armMotor.setPower(0);
+
         /**
-         * The 3 servos need to be initialized at the midpoint(0.5) using servo_name.setPosition()
+         * The 1 servo need to be initialized at the midpoint(0.5) using servo_name.setPosition()
          * **/
-        servoOne.setPosition(0.5);
-        servoTwo.setPosition(0.5);
-        servoThree.setPosition(0.5);
+        handServo.setPosition(0.5);
     }
 
     /**
@@ -201,19 +209,21 @@ public class ArtemisHardwareMap {
     }
 
     /**
-     * These methods takes in only 1 input: either the Y button or the B button
-     * If the Y button is pressed, we set a positive position for the servo.
-     * If the B button is pressed, we set a negative position for the servo
+     * This method takes in 2 inputs : left and right trigger
+     * Whichever trigger power is greater is the one that will move forwards/backwards
      * **/
-    public void setServoOnePosition(double position){
-        servoOne.setPosition(position);
+    public void moveArm(double speed){
+        armMotor.setPower(speed);
     }
 
-    public void setServoTwoPosition(double position){
-        servoTwo.setPosition(position);
+    /**
+     * This method takes in 1 input: right bumper
+     * If the right bumper is pressed then the servo hand will loosen else it will tighten
+     * **/
+    public void loosen(){
+        handServo.setPosition(0);
     }
-
-    public void setServoThreePosition(double position){
-        servoThree.setPosition(position);
+    public void tighten(){
+        handServo.setPosition(1);
     }
 }
