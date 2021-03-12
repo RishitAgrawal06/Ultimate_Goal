@@ -38,6 +38,7 @@ package org.firstinspires.ftc.teamcode.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * This program is not an OpMode. Instead it initialize all the hardware including motors and servos and
  * provides various methods on how to get it to move and turn(A helper class)
@@ -281,7 +282,26 @@ public class ArtemisHardwareMap {
     public void autonomousMotorShoot(){
         shooterMotor.setPower(1);
         conveyorMotor.setPower(1);
+        intakeMotor.setPower(1);
     }
 
-    public void autonomousServoHandle(boolean isDropped){}
+    public void autonomousServoHandle(boolean drop){
+        ElapsedTime runtime = new ElapsedTime();
+        if(drop){
+            while(runtime.seconds()<1.5){
+                armMotor.setPower(-0.1);
+            }
+            while(runtime.seconds()<3.0){
+                handServo.setPosition(0);
+            }
+        }
+        else{
+            while(runtime.seconds()<1.5){
+                handServo.setPosition(1);
+            }
+            while (runtime.seconds()<1.5){
+                armMotor.setPower(0.1);
+            }
+        }
+    }
 }

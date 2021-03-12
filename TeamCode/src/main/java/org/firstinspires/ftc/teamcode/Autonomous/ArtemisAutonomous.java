@@ -93,7 +93,7 @@ public class ArtemisAutonomous extends OpMode {
      * This is called ONCE when the driver presses the init button
      * **/
     ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
-    private ElapsedTime runtime = new ElapsedTime();
+    ElapsedTime runtime = new ElapsedTime();
 
     @Override
     public void init(){
@@ -160,12 +160,12 @@ public class ArtemisAutonomous extends OpMode {
         }
     }
 
+    /**
+     * If the user presses the stop button, then end tensorflow object detection
+     * **/
     @Override
     public void stop(){
         telemetry.addData("Robot Status Autonomous: ", "Has Stopped");
-        /**
-         * If the user presses the stop button, then end tensorflow object detection
-         * **/
         if (tfod != null) {
             tfod.shutdown();
         }
@@ -176,7 +176,7 @@ public class ArtemisAutonomous extends OpMode {
      * **/
 
     public void zeroRing(){
-        //count: 24s
+        //count: 26s
         //1. Move forward till half of field 2s
         while(runtime.seconds() < 2.0){
             hardwareMapInitialize.autonomousMotorMove(true);
@@ -187,7 +187,8 @@ public class ArtemisAutonomous extends OpMode {
             hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         }
         runtime.reset();
-        //4. Drop and release wobble goal 3s
+        //4. Drop and release wobble goal(3s estimate)
+        hardwareMapInitialize.autonomousServoHandle(true);
 
         //5. Strafe bottom left to a bit left of wobble goal 2s
         while(runtime.seconds() < 2.0){
@@ -199,10 +200,11 @@ public class ArtemisAutonomous extends OpMode {
             hardwareMapInitialize.autonomousMotorMove( false);
         }
         runtime.reset();
-        //7. Go a bit right and latch on to wobble goal 1s
+        //7. Go a bit right and latch on to wobble goal(3s estimate)
         while(runtime.seconds() < 1.0){
             hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         }
+        hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
 
         //8. Move forwards half of field 2s
@@ -226,7 +228,8 @@ public class ArtemisAutonomous extends OpMode {
             hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         }
         runtime.reset();
-        //13. Drop and release wobble goal 3s
+        //13. Drop and release wobble goal(3s estimate)
+        hardwareMapInitialize.autonomousServoHandle(false);
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
