@@ -220,10 +220,7 @@ public class ArtemisHardwareMap {
      * This method takes in 1 input: right bumper
      * If the right bumper is pressed then the servo hand will loosen else it will tighten
      * **/
-    public void loosen(){
-        handServo.setPosition(0);
-    }
-    public void tighten(){
-        handServo.setPosition(1);
+    public void changeHandPosition(int position){
+        handServo.setPosition(position);
     }
 }

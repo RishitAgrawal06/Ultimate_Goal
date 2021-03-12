@@ -115,21 +115,11 @@ public class ArtemisTeleOp extends OpMode {
         boolean loose = gamepad1.right_bumper;
 
         if(positiveArmPower!=0 || negativeArmPower !=0){
-            if(positiveArmPower>negativeArmPower){
-                hardwareMapInitialize.moveArm(positiveArmPower);
-            }
-            else{
-                hardwareMapInitialize.moveArm(negativeArmPower);
-            }
+            hardwareMapInitialize.moveArm(positiveArmPower>negativeArmPower ? positiveArmPower : negativeArmPower);
         }else{
             hardwareMapInitialize.moveArm(0);
         }
-        if(loose){
-            hardwareMapInitialize.loosen();
-        }
-        else{
-            hardwareMapInitialize.tighten();
-        }
+        hardwareMapInitialize.changeHandPosition(loose ? 0 : 1);
     }
 
     /**
