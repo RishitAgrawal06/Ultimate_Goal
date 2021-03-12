@@ -179,23 +179,54 @@ public class ArtemisAutonomous extends OpMode {
         //count: 24s
         //1. Move forward till half of field 2s
         while(runtime.seconds() < 2.0){
-            hardwareMapInitialize.autonomousMotorMove(true,true,true,true, true);
+            hardwareMapInitialize.autonomousMotorMove(true);
         }
         runtime.reset();
-        //3. Strafe right till reach box 1s
+        //3. Strafe top right till reach box 1s
+        while(runtime.seconds() < 1.0){
+            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        }
+        runtime.reset();
         //4. Drop and release wobble goal 3s
 
-        //5. Strafe back left to a bit left of wobble goal 2s
+        //5. Strafe bottom left to a bit left of wobble goal 2s
+        while(runtime.seconds() < 2.0){
+            hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
+        }
+        runtime.reset();
         //6. Go back to start of field 2s
+        while(runtime.seconds() < 2.0){
+            hardwareMapInitialize.autonomousMotorMove( false);
+        }
+        runtime.reset();
         //7. Go a bit right and latch on to wobble goal 1s
+        while(runtime.seconds() < 1.0){
+            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        }
+        runtime.reset();
 
         //8. Move forwards half of field 2s
-        //9. strafe right 1s
+        while(runtime.seconds() < 2.0){
+            hardwareMapInitialize.autonomousMotorMove( true);
+        }
+        runtime.reset();
+        //9. strafe top left 1s
+        while(runtime.seconds() < 1.0){
+            hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
+        }
+        runtime.reset();
         //10. shoot rings 4s
+        while(runtime.seconds() < 4.0){
+            hardwareMapInitialize.autonomousMotorShoot();
+        }
+        runtime.reset();
 
         //12. strafe right 1s
+        while(runtime.seconds() < 1.0){
+            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        }
+        runtime.reset();
         //13. Drop and release wobble goal 3s
-        //14. strafe top left and align
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 

@@ -228,19 +228,60 @@ public class ArtemisHardwareMap {
      * These are the strictly autonomous methods which are controlled by the timer and wheel/motor selection
      * There is no gamepad influence on this
      * **/
-    public void autonomousMotorMove(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight, boolean isForward){
-        double forwardSpeed = isForward ? 0.5 : -0.5;
-        topLeftDriveMotor.setPower(topLeft ? forwardSpeed : 0);
-        bottomLeftDriveMotor.setPower(bottomLeft ? forwardSpeed : 0);
-        topRightDriveMotor.setPower(topRight ? forwardSpeed : 0);
-        bottomRightDriveMotor.setPower(bottomRight ? forwardSpeed : 0);
+    public void autonomousMotorMove(boolean isForward){
+        double speed = isForward ? 0.5 : -0.5;
+        topLeftDriveMotor.setPower(speed);
+        bottomLeftDriveMotor.setPower(speed);
+        topRightDriveMotor.setPower(speed);
+        bottomRightDriveMotor.setPower(speed);
     }
 
-    public void autonomousMotorTurn(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight){}
+    public void autonomousMotorStrafe(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight){
+        if(topLeft){
+            topLeftDriveMotor.setPower( 0);
+            bottomLeftDriveMotor.setPower(0.5);
+            topRightDriveMotor.setPower(0.5);
+            bottomRightDriveMotor.setPower( 0);
+        }
+        else if(bottomLeft){
+            topLeftDriveMotor.setPower(-0.5);
+            bottomLeftDriveMotor.setPower(0);
+            topRightDriveMotor.setPower(0);
+            bottomRightDriveMotor.setPower(-0.5);
+        }
+        else if(topRight){
+            topLeftDriveMotor.setPower(0.5);
+            bottomLeftDriveMotor.setPower(0);
+            topRightDriveMotor.setPower(0);
+            bottomRightDriveMotor.setPower(0.5);
+        }
+        else if(bottomRight){
+            topLeftDriveMotor.setPower( 0);
+            bottomLeftDriveMotor.setPower(-0.5);
+            topRightDriveMotor.setPower(-0.5);
+            bottomRightDriveMotor.setPower( 0);
+        }
+    }
 
-    public void autonomousMotorStrafe(){}
+    public void autonomousMotorTurn(boolean right, boolean left){
+        double turnPower = 0.5;
+        if(right){
+            topLeftDriveMotor.setPower(turnPower);
+            bottomLeftDriveMotor.setPower(turnPower);
+            topRightDriveMotor.setPower(0);
+            bottomRightDriveMotor.setPower(0);
+        }else if(left){
+            topLeftDriveMotor.setPower(0);
+            bottomLeftDriveMotor.setPower(0);
+            topRightDriveMotor.setPower(turnPower);
+            bottomRightDriveMotor.setPower(turnPower);
+        }
+    }
 
-    public void autonomousMotorShoot(){}
+    public void autonomousMotorShoot(){
+        shooterMotor.setPower(1);
+        conveyorMotor.setPower(1);
+    }
 
     public void autonomousServoHandle(boolean isDropped){}
 }
