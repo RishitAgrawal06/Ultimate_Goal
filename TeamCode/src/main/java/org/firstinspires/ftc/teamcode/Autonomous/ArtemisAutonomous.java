@@ -178,6 +178,10 @@ public class ArtemisAutonomous extends OpMode {
     public void zeroRing(){
         //count: 24s
         //1. Move forward till half of field 2s
+        while(runtime.seconds() < 2.0){
+            hardwareMapInitialize.autonomousMotorMove(true,true,true,true, true);
+        }
+        runtime.reset();
         //3. Strafe right till reach box 1s
         //4. Drop and release wobble goal 3s
 

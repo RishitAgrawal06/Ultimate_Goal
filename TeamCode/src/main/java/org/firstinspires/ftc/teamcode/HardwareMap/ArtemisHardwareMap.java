@@ -223,4 +223,24 @@ public class ArtemisHardwareMap {
     public void changeHandPosition(int position){
         handServo.setPosition(position);
     }
+
+    /**
+     * These are the strictly autonomous methods which are controlled by the timer and wheel/motor selection
+     * There is no gamepad influence on this
+     * **/
+    public void autonomousMotorMove(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight, boolean isForward){
+        double forwardSpeed = isForward ? 0.5 : -0.5;
+        topLeftDriveMotor.setPower(topLeft ? forwardSpeed : 0);
+        bottomLeftDriveMotor.setPower(bottomLeft ? forwardSpeed : 0);
+        topRightDriveMotor.setPower(topRight ? forwardSpeed : 0);
+        bottomRightDriveMotor.setPower(bottomRight ? forwardSpeed : 0);
+    }
+
+    public void autonomousMotorTurn(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight){}
+
+    public void autonomousMotorStrafe(){}
+
+    public void autonomousMotorShoot(){}
+
+    public void autonomousServoHandle(boolean isDropped){}
 }
