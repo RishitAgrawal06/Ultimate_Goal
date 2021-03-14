@@ -53,11 +53,11 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
 @TeleOp(name = "Artemis TeleOp")
 public class ArtemisTeleOp extends OpMode {
 
+    ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
+
     /**
      * This is called ONCE when the driver presses the init button
      * **/
-    ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
-
     @Override
     public void init(){
         telemetry.addData("Robot Initialized Successfully in TeleOp"," Wait for hardware to initialize");

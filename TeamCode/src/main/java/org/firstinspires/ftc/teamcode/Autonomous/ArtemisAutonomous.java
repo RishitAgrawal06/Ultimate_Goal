@@ -70,9 +70,13 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
  * This class uses Tensorflow lite along with the webcam to dynamically choose wheter to score points via wobble goal
  * or shooting rings all on its own
  * **/
-
 @Autonomous(name = "Artemis Autonomous")
 public class ArtemisAutonomous extends OpMode {
+
+    /**
+     * The hardware map initialization object which initializes all our motors and servos
+     * **/
+    ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
 
     /**
      * This stores our instance of the Vuforia localization engine and the license key.
@@ -92,9 +96,6 @@ public class ArtemisAutonomous extends OpMode {
     /**
      * This is called ONCE when the driver presses the init button
      * **/
-    ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
-    ElapsedTime runtime = new ElapsedTime();
-
     @Override
     public void init(){
         telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
@@ -109,6 +110,9 @@ public class ArtemisAutonomous extends OpMode {
         }
     }
 
+    /**
+     * Once the init button is pressed, the robot will use the webcam and scan the ring stack to see if it has 0,1,4 rings
+     * **/
     @Override
     public void init_loop(){
         if (tfod != null) {
@@ -146,14 +150,17 @@ public class ArtemisAutonomous extends OpMode {
         }
     }
 
+    /**
+     * Based on the number of rings the robot will call its respective method
+     * **/
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
         if (numberOfRings == 0) {
-            zeroRing();
+            zeroRings();
         }
         else if(numberOfRings == 1){
-            oneRing();
+            oneRings();
         }
         else{
             fourRings();
@@ -161,7 +168,7 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     /**
-     * If the user presses the stop button, then end tensorflow object detection
+     * If the user presses the stop button, then end tensorflow object detection and log that the robot has stopped
      * **/
     @Override
     public void stop(){
@@ -172,10 +179,14 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     /**
-     * Robot will either go place the wobble first or shoot the rings first
+     * Robot will either go place the wobble first(0,1 rings) or shoot the rings first(4 rings)
      * **/
 
-    public void zeroRing(){
+    /**
+     * This method is called when Tensorflow detects no rings on the starter stack
+     * **/
+    public void zeroRings(){
+        ElapsedTime runtime = new ElapsedTime();
         //count: 26s
         //1. Move forward till half of field 2s
         while(runtime.seconds() < 2.0){
@@ -189,7 +200,7 @@ public class ArtemisAutonomous extends OpMode {
         runtime.reset();
         //4. Drop and release wobble goal(3s estimate)
         hardwareMapInitialize.autonomousServoHandle(true);
-
+        runtime.reset();
         //5. Strafe bottom left to a bit left of wobble goal 2s
         while(runtime.seconds() < 2.0){
             hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
@@ -206,7 +217,6 @@ public class ArtemisAutonomous extends OpMode {
         }
         hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
-
         //8. Move forwards half of field 2s
         while(runtime.seconds() < 2.0){
             hardwareMapInitialize.autonomousMotorMove( true);
@@ -222,7 +232,6 @@ public class ArtemisAutonomous extends OpMode {
             hardwareMapInitialize.autonomousMotorShoot();
         }
         runtime.reset();
-
         //12. strafe right 1s
         while(runtime.seconds() < 1.0){
             hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
@@ -230,10 +239,15 @@ public class ArtemisAutonomous extends OpMode {
         runtime.reset();
         //13. Drop and release wobble goal(3s estimate)
         hardwareMapInitialize.autonomousServoHandle(false);
+        runtime.reset();
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
-    public void oneRing(){
+    /**
+     * This method is called when Tensorflow detects 1 ring on the starter stack
+     * **/
+    public void oneRings(){
+        ElapsedTime runtime = new ElapsedTime();
         //count: 25s
         //1. Move forward till 3/4 of field 3s
         //3. Strafe right till reach box 1s
@@ -252,7 +266,11 @@ public class ArtemisAutonomous extends OpMode {
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
+    /**
+     * This method is called when Tensorflow detects 4 rings on the starter stack
+     * **/
     public void fourRings(){
+        ElapsedTime runtime = new ElapsedTime();
         //count: 27s
         //1. Move forwards half field 2s
         //2. Strafe right a bit 1s
@@ -275,9 +293,8 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     /**
-     * Initialize the Vuforia localization engine.
+     * Initialize the Vuforia localization engine along with the webcam
      */
-
     private void initVuforia() {
         /*
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
@@ -292,7 +309,7 @@ public class ArtemisAutonomous extends OpMode {
     }
 
     /**
-     * Initialize the TensorFlow Object Detection engine.
+     * Initialize the TensorFlow Object Detection engine with its respective assets and a way to display 0,1, or 4 rings detected
      */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
