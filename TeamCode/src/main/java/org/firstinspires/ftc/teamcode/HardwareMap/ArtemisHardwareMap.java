@@ -62,7 +62,7 @@ public class ArtemisHardwareMap {
     public DcMotor shooterMotor;
 
     /**
-     * These are the 1 hand servo and 1 arm motor of the robot
+     * This is the 1 hand servo and 1 arm motor of the robot
      * **/
     public Servo handServo;
     public DcMotor armMotor;
@@ -72,13 +72,6 @@ public class ArtemisHardwareMap {
      * in which we will use in this class to map and set methods for
      * **/
     HardwareMap hwMap;
-
-    /**
-     * Constructor for the ArtemisHardwareMap method in case we need it
-     * **/
-    public ArtemisHardwareMap(){
-
-    }
 
     /**
      * This method initializes all the motors and servos using the parent hardware map
@@ -185,7 +178,7 @@ public class ArtemisHardwareMap {
      * */
     public void moveRobot(double leftStickY, double leftStickX, double rightStickX){
         /**
-         * Wheel powers calculated using gamepad inputs leftStickY, leftStickX, and rightStickX
+         * Wheel powers calculated using gamepad 1's inputs leftStickY, leftStickX, and rightStickX
          * **/
         double topLeftPower = leftStickY + leftStickX + rightStickX;
         double bottomLeftPower = leftStickY - leftStickX + rightStickX;
@@ -257,6 +250,10 @@ public class ArtemisHardwareMap {
      * These are the strictly autonomous methods which are controlled by the timer and wheel/motor selection
      * There is no gamepad influence on this
      * **/
+
+    /**
+     * This autonomous move method allows the robot to move forwards and backwards like a tank drive and is controlled by a boolean isForwards
+     * **/
     public void autonomousMotorMove(boolean isForward){
         double speed = isForward ? 0.5 : -0.5;
         topLeftDriveMotor.setPower(speed);
@@ -265,6 +262,10 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor.setPower(speed);
     }
 
+    /**
+     * This autonomous strafe method allows the robot to strafe using mecanum wheels and the direction
+     * and the direction is specified via a boolean variable
+     * **/
     public void autonomousMotorStrafe(boolean topLeft, boolean bottomLeft,boolean topRight,boolean bottomRight){
         if(topLeft){
             topLeftDriveMotor.setPower( 0);
@@ -292,6 +293,10 @@ public class ArtemisHardwareMap {
         }
     }
 
+    /**
+     * This autonomous turn method allows the robot to turn with power 0.5 and the direction
+     * is specified via boolean variables
+     * **/
     public void autonomousMotorTurn(boolean right, boolean left){
         double turnPower = 0.5;
         if(right){
@@ -307,12 +312,19 @@ public class ArtemisHardwareMap {
         }
     }
 
+    /**
+     * This autonomous shoot method allows the robot to shoot its rings out.
+     * It moves the shooter, conveyor, and intake so that all the rings are transported and shot.
+     * **/
     public void autonomousMotorShoot(){
         shooterMotor.setPower(1);
         conveyorMotor.setPower(1);
         intakeMotor.setPower(1);
     }
 
+    /**
+     * This autonomous servo handle method allows the servo arm to lift or drop a wobble goal depending on a boolean variable
+     * **/
     public void autonomousServoHandle(boolean drop){
         ElapsedTime runtime = new ElapsedTime();
         if(drop){
