@@ -34,8 +34,6 @@ package org.firstinspires.ftc.teamcode.TeleOp;
 /**
  * Imports OpMode class and the TeleOp declaration
  * **/
-import android.net.wifi.p2p.WifiP2pManager;
-
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 

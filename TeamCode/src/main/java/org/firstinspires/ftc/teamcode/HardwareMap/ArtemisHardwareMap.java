@@ -39,14 +39,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
 /**
  * This program is not an OpMode. Instead it initialize all the hardware including motors and servos and
  * provides various methods on how to get it to move and turn(A helper class)
  * **/
 public class ArtemisHardwareMap {
-    /**
-     * OpMode members declared
-     * **/
 
     /**
      * These motors are the 4 mecanum wheels of our robot
@@ -107,10 +105,10 @@ public class ArtemisHardwareMap {
         handServo = hwMap.get(Servo.class, "Hand-Servo");
         armMotor = hwMap.get(DcMotor.class, "Arm-Motor");
         /**
-         * Allow the 4 wheel motors to be run with encoders since need to track rotations in Auton
+         * Allow the 4 wheel motors to be run without encoders since we are doing a time based autonomous
          * **/
-        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        topLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        bottomLeftDriveMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         topRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         bottomRightDriveMotor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
@@ -122,7 +120,7 @@ public class ArtemisHardwareMap {
         shooterMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         /**
-         * No need for encoders for the arm motor
+         * No need for encoders for the arm motor since we just drop and lift with it
          * **/
         armMotor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
@@ -176,7 +174,7 @@ public class ArtemisHardwareMap {
         /**
          * The 1 servo need to be initialized at the midpoint(0.5) using servo_name.setPosition()
          * **/
-        handServo.setPosition(0.5);
+        handServo.setPosition(1);
     }
 
     /**
@@ -186,10 +184,40 @@ public class ArtemisHardwareMap {
      * -Right Stick X allows the robot to turn left or right(Positive value makes left motors turn more hence going right and negative value makes right motors turn more hence going left)
      * */
     public void moveRobot(double leftStickY, double leftStickX, double rightStickX){
-        topLeftDriveMotor.setPower(leftStickY + leftStickX + rightStickX);
-        bottomLeftDriveMotor.setPower(leftStickY - leftStickX + rightStickX);
-        topRightDriveMotor.setPower(leftStickY - leftStickX - rightStickX);
-        bottomRightDriveMotor.setPower(leftStickY + leftStickX - rightStickX);
+        /**
+         * Wheel powers calculated using gamepad inputs leftStickY, leftStickX, and rightStickX
+         * **/
+        double topLeftPower = leftStickY + leftStickX + rightStickX;
+        double bottomLeftPower = leftStickY - leftStickX + rightStickX;
+        double topRightPower = leftStickY - leftStickX - rightStickX;
+        double bottomRightPower = leftStickY + leftStickX - rightStickX;
+
+        /**
+         * If any value is greater than 1 then lets scale the power all the wheels from -1 to 1
+         * **/
+        if (Math.abs(topLeftPower) > 1 || Math.abs(bottomLeftPower) > 1 ||
+                Math.abs(topRightPower) > 1 || Math.abs(bottomRightPower) > 1 ) {
+            // Find the largest power
+            double max = 0;
+            max = Math.max(Math.abs(topLeftPower), Math.abs(bottomLeftPower));
+            max = Math.max(Math.abs(topRightPower), max);
+            max = Math.max(Math.abs(bottomRightPower), max);
+
+            // Divide everything by max (it's positive so we don't need to worry
+            // about signs)
+            topLeftPower /= max;
+            bottomLeftPower /= max;
+            topRightPower /= max;
+            bottomRightPower /= max;
+        }
+
+        /**
+         * Sets the wheel's power once scaled
+         * **/
+        topLeftDriveMotor.setPower(topLeftPower);
+        bottomLeftDriveMotor.setPower(bottomLeftPower);
+        topRightDriveMotor.setPower(topRightPower);
+        bottomRightDriveMotor.setPower(bottomRightPower);
     }
 
     /**
