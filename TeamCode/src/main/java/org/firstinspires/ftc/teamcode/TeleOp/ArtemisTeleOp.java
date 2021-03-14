@@ -26,6 +26,7 @@
  * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 /**
  * This is the TeleOp package
  * **/
@@ -53,6 +54,9 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
 @TeleOp(name = "Artemis TeleOp")
 public class ArtemisTeleOp extends OpMode {
 
+    /**
+     * The hardware map initialization object which initializes all our motors and servos
+     * **/
     ArtemisHardwareMap hardwareMapInitialize = new ArtemisHardwareMap();
 
     /**
@@ -121,7 +125,7 @@ public class ArtemisTeleOp extends OpMode {
     }
 
     /**
-     * This is called ONCE when the driver presses the stop button
+     * This is called ONCE when the driver presses the stop button and logs that the robot has stopped
      * **/
     @Override
     public void stop(){
