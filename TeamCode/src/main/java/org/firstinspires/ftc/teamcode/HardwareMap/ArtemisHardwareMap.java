@@ -36,6 +36,7 @@ package org.firstinspires.ftc.teamcode.HardwareMap;
  *Imports physical hardware to manipulate
  * **/
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -126,8 +127,9 @@ public class ArtemisHardwareMap {
         bottomRightDriveMotor.setDirection(DcMotor.Direction.FORWARD);
 
         /**
-         * Reverses shooter motor to shoot the correct way
+         * Reverses shooter motor to shoot the correct way and same with the conveyor motor
          * **/
+        conveyorMotor.setDirection(DcMotor.Direction.REVERSE);
         shooterMotor.setDirection(DcMotor.Direction.REVERSE);
 
         /**
