@@ -113,7 +113,7 @@ public class ArtemisTeleOp extends OpMode {
          * Gamepad inputs for manipulating the hand servo and the arm motor
          * **/
         double positiveArmPower = gamepad1.right_trigger;
-        double negativeArmPower = -gamepad1.left_trigger;
+        double negativeArmPower = gamepad1.left_trigger;
         boolean loose = gamepad1.right_bumper;
 
         if(positiveArmPower!=0 || negativeArmPower !=0){
