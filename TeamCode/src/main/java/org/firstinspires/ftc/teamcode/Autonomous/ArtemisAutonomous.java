@@ -157,15 +157,18 @@ public class ArtemisAutonomous extends OpMode {
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
         telemetry.addData("Number of Rings Detected",numberOfRings);
-//        if (numberOfRings == 0) {
+        if (numberOfRings == 0) {
+            telemetry.addData("Activating ", "Zero Rings Method");
 //            zeroRings();
-//        }
-//        else if(numberOfRings == 1){
+        }
+        else if(numberOfRings == 1){
+            telemetry.addData("Activating ", "One Rings Method");
 //            oneRings();
-//        }
-//        else{
+        }
+        else{
+            telemetry.addData("Activating ", "Four Rings Method");
 //            fourRings();
-//        }
+        }
     }
 
     /**
