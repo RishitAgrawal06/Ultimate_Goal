@@ -35,7 +35,7 @@ package org.firstinspires.ftc.teamcode.Autonomous;
 /**
  * Imports OpMode class and the Autonomous declaration and Elapsed Time
  * **/
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -71,7 +71,7 @@ import org.firstinspires.ftc.teamcode.HardwareMap.ArtemisHardwareMap;
  * or shooting rings all on its own
  * **/
 @Autonomous(name = "Artemis Autonomous")
-public class ArtemisAutonomous extends OpMode {
+public class ArtemisAutonomous extends LinearOpMode {
 
     /**
      * The hardware map initialization object which initializes all our motors and servos
@@ -94,93 +94,56 @@ public class ArtemisAutonomous extends OpMode {
     private int numberOfRings = 0;
 
     /**
-     * This is called ONCE when the driver presses the init button
-     * **/
-    @Override
-    public void init(){
-        telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
-        hardwareMapInitialize.init(hardwareMap);
-        telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
-
-        initVuforia();
-        initTfod();
-
-        if(tfod != null){
-            tfod.activate();
-        }
-    }
-
-    /**
-     * Once the init button is pressed, the robot will use the webcam and scan the ring stack to see if it has 0,1,4 rings
-     * **/
-    @Override
-    public void init_loop(){
-        if (tfod != null) {
-            // getUpdatedRecognitions() will return null if no new information is available since
-            // the last time that call was made.
-            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-            if (updatedRecognitions != null) {
-                telemetry.addData("# Object Detected", updatedRecognitions.size());
-                if(updatedRecognitions.size() == 0){
-                    // empty list.  no objects recognized.
-                    telemetry.addData("TFOD", "No items detected.");
-                    numberOfRings = 0;
-                }else{
-                    // list is not empty.
-                    // step through the list of recognitions and display boundary info.
-                    int i = 0;
-                    for (Recognition recognition : updatedRecognitions) {
-                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
-                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
-                                recognition.getLeft(), recognition.getTop());
-                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
-                                recognition.getRight(), recognition.getBottom());
-
-                        // check label to see which target zone to go after.
-                        if (recognition.getLabel().equals("Single")) {
-                            numberOfRings = 1;
-                        } else if (recognition.getLabel().equals("Quad")) {
-                            numberOfRings = 4;
-                        } else {
-                            numberOfRings= 0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    /**
      * Based on the number of rings the robot will call its respective method
      * **/
     @Override
-    public void loop(){
-        telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
-        telemetry.addData("Number of Rings Detected",numberOfRings);
-        if (numberOfRings == 0) {
-            telemetry.addData("Activating ", "Zero Rings Method");
-//            zeroRings();
+    public void runOpMode(){
+        //initializes code here
+        telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
+        telemetry.update();
+        hardwareMapInitialize.init(hardwareMap);
+        telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
+        telemetry.update();
+        initVuforia();
+        initTfod();
+        if(tfod != null){
+            tfod.activate();
         }
-        else if(numberOfRings == 1){
-            telemetry.addData("Activating ", "One Rings Method");
-//            oneRings();
+        while(!opModeIsActive()){
+            checkRings();
         }
-        else{
-            telemetry.addData("Activating ", "Four Rings Method");
-//            fourRings();
-        }
-    }
 
-    /**
-     * If the user presses the stop button, then end tensorflow object detection and log that the robot has stopped
-     * **/
-    @Override
-    public void stop(){
+        //runs the actual opmode code here
+        waitForStart();
+        while(opModeIsActive()){
+            telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+            telemetry.addData("Number of Rings Detected",numberOfRings);
+            telemetry.update();
+            if (numberOfRings == 0) {
+                telemetry.addData("Activating ", "Zero Rings Method");
+                telemetry.update();
+//            zeroRings();
+            }
+            else if(numberOfRings == 1){
+                telemetry.addData("Activating ", "One Rings Method");
+                telemetry.update();
+//            oneRings();
+            }
+            else{
+                telemetry.addData("Activating ", "Four Rings Method");
+                telemetry.update();
+//            fourRings();
+            }
+        }
+
+        //stops and shutdowns necessary libraries here
         telemetry.addData("Robot Status Autonomous: ", "Has Stopped");
+        telemetry.update();
         if (tfod != null) {
             tfod.shutdown();
         }
     }
+
 
     /**
      * Robot will either go place the wobble first(0,1 rings) or shoot the rings first(4 rings)
@@ -191,60 +154,60 @@ public class ArtemisAutonomous extends OpMode {
      * **/
     public void zeroRings(){
         ElapsedTime runtime = new ElapsedTime();
-        //count: 26s
-        //1. Move forward till half of field 2s
-        while(runtime.seconds() < 2.0){
-            hardwareMapInitialize.autonomousMotorMove(true);
-        }
-        runtime.reset();
-        //3. Strafe top right till reach box 1s
-        while(runtime.seconds() < 1.0){
-            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        }
-        runtime.reset();
-        //4. Drop and release wobble goal(3s estimate)
-        hardwareMapInitialize.autonomousServoHandle(true);
-        runtime.reset();
-        //5. Strafe bottom left to a bit left of wobble goal 2s
-        while(runtime.seconds() < 2.0){
-            hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
-        }
-        runtime.reset();
-        //6. Go back to start of field 2s
-        while(runtime.seconds() < 2.0){
-            hardwareMapInitialize.autonomousMotorMove( false);
-        }
-        runtime.reset();
-        //7. Go a bit right and latch on to wobble goal(3s estimate)
-        while(runtime.seconds() < 1.0){
-            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        }
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
-        //8. Move forwards half of field 2s
-        while(runtime.seconds() < 2.0){
-            hardwareMapInitialize.autonomousMotorMove( true);
-        }
-        runtime.reset();
-        //9. strafe top left 1s
-        while(runtime.seconds() < 1.0){
-            hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
-        }
-        runtime.reset();
-        //10. shoot rings 4s
-        while(runtime.seconds() < 4.0){
-            hardwareMapInitialize.autonomousMotorShoot();
-        }
-        runtime.reset();
-        //12. strafe right 1s
-        while(runtime.seconds() < 1.0){
-            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        }
-        runtime.reset();
-        //13. Drop and release wobble goal(3s estimate)
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
         telemetry.addData("Runtime: ",runtime.seconds()+"");
+        //count: 26s
+//        //1. Move forward till half of field 2s
+//        while(runtime.seconds() < 2.0){
+//            hardwareMapInitialize.autonomousMotorMove(true);
+//        }
+//        runtime.reset();
+//        //3. Strafe top right till reach box 1s
+//        while(runtime.seconds() < 1.0){
+//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        }
+//        runtime.reset();
+//        //4. Drop and release wobble goal(3s estimate)
+//        hardwareMapInitialize.autonomousServoHandle(true);
+//        runtime.reset();
+//        //5. Strafe bottom left to a bit left of wobble goal 2s
+//        while(runtime.seconds() < 2.0){
+//            hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
+//        }
+//        runtime.reset();
+//        //6. Go back to start of field 2s
+//        while(runtime.seconds() < 2.0){
+//            hardwareMapInitialize.autonomousMotorMove( false);
+//        }
+//        runtime.reset();
+//        //7. Go a bit right and latch on to wobble goal(3s estimate)
+//        while(runtime.seconds() < 1.0){
+//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        }
+//        hardwareMapInitialize.autonomousServoHandle(false);
+//        runtime.reset();
+//        //8. Move forwards half of field 2s
+//        while(runtime.seconds() < 2.0){
+//            hardwareMapInitialize.autonomousMotorMove( true);
+//        }
+//        runtime.reset();
+//        //9. strafe top left 1s
+//        while(runtime.seconds() < 1.0){
+//            hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
+//        }
+//        runtime.reset();
+//        //10. shoot rings 4s
+//        while(runtime.seconds() < 4.0){
+//            hardwareMapInitialize.autonomousMotorShoot();
+//        }
+//        runtime.reset();
+//        //12. strafe right 1s
+//        while(runtime.seconds() < 1.0){
+//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        }
+//        runtime.reset();
+//        //13. Drop and release wobble goal(3s estimate)
+//        hardwareMapInitialize.autonomousServoHandle(false);
+//        runtime.reset();
     }
 
     /**
@@ -320,5 +283,44 @@ public class ArtemisAutonomous extends OpMode {
         tfodParameters.minResultConfidence = 0.8f;
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
+    }
+
+    //Tensorflow and vuforia will use the camera to detect how many rings there are
+    public void checkRings(){
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                telemetry.update();
+                if(updatedRecognitions.size() == 0){
+                    // empty list.  no objects recognized.
+                    telemetry.addData("TFOD", "No items detected.");
+                    telemetry.update();
+                    numberOfRings = 0;
+                }else{
+                    // list is not empty.
+                    // step through the list of recognitions and display boundary info.
+                    int i = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+                        telemetry.addData(String.format("label (%d)", i), recognition.getLabel());
+                        telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                recognition.getLeft(), recognition.getTop());
+                        telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                recognition.getRight(), recognition.getBottom());
+                        telemetry.update();
+                        // check label to see which target zone to go after.
+                        if (recognition.getLabel().equals("Single")) {
+                            numberOfRings = 1;
+                        } else if (recognition.getLabel().equals("Quad")) {
+                            numberOfRings = 4;
+                        } else {
+                            numberOfRings= 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 }
