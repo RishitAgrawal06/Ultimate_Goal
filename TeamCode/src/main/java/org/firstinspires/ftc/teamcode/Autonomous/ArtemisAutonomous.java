@@ -156,15 +156,16 @@ public class ArtemisAutonomous extends OpMode {
     @Override
     public void loop(){
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
-        if (numberOfRings == 0) {
-            zeroRings();
-        }
-        else if(numberOfRings == 1){
-            oneRings();
-        }
-        else{
-            fourRings();
-        }
+        telemetry.addData("Number of Rings Detected",numberOfRings);
+//        if (numberOfRings == 0) {
+//            zeroRings();
+//        }
+//        else if(numberOfRings == 1){
+//            oneRings();
+//        }
+//        else{
+//            fourRings();
+//        }
     }
 
     /**
@@ -300,10 +301,8 @@ public class ArtemisAutonomous extends OpMode {
          * Configure Vuforia by creating a Parameter object, and passing it to the Vuforia engine.
          */
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
-
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
         parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
-
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
     }
