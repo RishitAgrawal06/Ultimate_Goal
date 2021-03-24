@@ -94,31 +94,51 @@ public class ArtemisAutonomous extends LinearOpMode {
     private int numberOfRings = 0;
 
     /**
-     * Based on the number of rings the robot will call its respective method
+     * This method initializes hardware and logs it if it was successful
      * **/
-    @Override
-    public void runOpMode(){
-        //initializes code here
-        telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for hardware to initialize");
+    public void initializeHardware(){
+        telemetry.addData("Robot Initialized Successfully in Autonomous", " Wait for Hardware to Initialize");
         telemetry.update();
         hardwareMapInitialize.init(hardwareMap);
         telemetry.addData("Robot Hardware Initialized Successfully in Autonomous", "Press Play to Start");
         telemetry.update();
+    }
+
+    /**
+     * This method initializes the tensorflow software and the Webcam to initialize Vuforia
+     * **/
+    public void initializeTensorVuforia(){
         initVuforia();
         initTfod();
         if(tfod != null){
             tfod.activate();
         }
+        telemetry.addData("Tensorflow and Vuforia ", "Initialized");
+        telemetry.update();
         while(!opModeIsActive()){
             checkRings();
         }
+        telemetry.addData("Number of Rings Detected",numberOfRings);
+        telemetry.update();
+    }
+
+    /**
+     * Based on the number of rings the robot will call its respective method
+     * **/
+    @Override
+    public void runOpMode(){
+
+        /**
+         * Initialize Hardware functions and Software functions called
+         * **/
+        initializeHardware();
+        initializeTensorVuforia();
 
         //runs the actual opmode code here
         waitForStart();
+        telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
+        telemetry.update();
         while(opModeIsActive()){
-            telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
-            telemetry.addData("Number of Rings Detected",numberOfRings);
-            telemetry.update();
             if (numberOfRings == 0) {
                 telemetry.addData("Activating ", "Zero Rings Method");
                 telemetry.update();
