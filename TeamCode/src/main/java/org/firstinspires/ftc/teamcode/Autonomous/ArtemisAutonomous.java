@@ -123,6 +123,17 @@ public class ArtemisAutonomous extends LinearOpMode {
     }
 
     /**
+     * This method logs that the robot was stopped and shuts down tesnorflow
+     * **/
+    public void stopRobot(){
+        telemetry.addData("Robot Status Autonomous: ", "Has Stopped");
+        telemetry.update();
+        if (tfod != null) {
+            tfod.shutdown();
+        }
+    }
+
+    /**
      * Based on the number of rings the robot will call its respective method
      * **/
     @Override
@@ -156,12 +167,10 @@ public class ArtemisAutonomous extends LinearOpMode {
             }
         }
 
-        //stops and shutdowns necessary libraries here
-        telemetry.addData("Robot Status Autonomous: ", "Has Stopped");
-        telemetry.update();
-        if (tfod != null) {
-            tfod.shutdown();
-        }
+        /**
+         * Calls stop function when Opmode goes from active to not active
+         * **/
+        stopRobot();
     }
 
 
