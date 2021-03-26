@@ -276,19 +276,19 @@ public class ArtemisAutonomous extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime();
         //count: 25s
         //1. Move forward till 3/4 of field 3s
-        //3. Strafe right till reach box 1s
-        //4. Drop and release wobble goal 3s
+        //2. Strafe right till reach box 1s
+        //3. Drop and release wobble goal 3s
 
-        //6. Go back to start of field 3s
-        //7. Go a bit right and latch on to wobble goal 1s
+        //4. Go back to start of field 3s
+        //5. Go a bit right and latch on to wobble goal 1s
 
-        //8. Move forwards half of field 2s
-        //9. strafe right 1s
-        //10. shoot rings 4s
+        //6. Move forwards half of field 2s
+        //7. strafe right 1s
+        //8. shoot rings 4s
 
-        //12. move forwards 1s
-        //13. Drop and release wobble goal 3s
-        //14. go back to launch line 2s
+        //9. move forwards 1s
+        //10. Drop and release wobble goal 3s
+        //11. go back to launch line 2s
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
