@@ -38,6 +38,7 @@ package org.firstinspires.ftc.teamcode.HardwareMap;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -56,11 +57,12 @@ public class ArtemisHardwareMap {
     public DcMotor bottomRightDriveMotor;
 
     /**
-     * These motors are the intake, conveyor, and shooter of the robot
+     * These motors are the intake, conveyor, and shooter motor/servo of the robot
      * **/
     public DcMotor intakeMotor;
     public DcMotor conveyorMotor;
     public DcMotor shooterMotor;
+    public CRServo shooterServo;
 
     /**
      * This is the 1 hand servo and 1 arm motor of the robot
@@ -95,6 +97,7 @@ public class ArtemisHardwareMap {
         intakeMotor = hwMap.get(DcMotor.class, "Intake-Motor");
         conveyorMotor = hwMap.get(DcMotor.class,"Conveyor-Motor");
         shooterMotor = hwMap.get(DcMotor.class,"Shooter-Motor");
+        shooterServo = hwMap.get(CRServo.class,"Shooter-Servo");
 
         handServo = hwMap.get(Servo.class, "Hand-Servo");
         armMotor = hwMap.get(DcMotor.class, "Arm-Motor");
@@ -153,7 +156,7 @@ public class ArtemisHardwareMap {
         armMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         /**
-         *The 4 mecanum wheel motors, intake, conveyor, and shooter are set to 0 power to keep it from moving when the user presses the INIT button
+         *The 4 mecanum wheel motors, intake, conveyor, and shooter motor/servo are set to 0 power to keep it from moving when the user presses the INIT button
          * **/
         topLeftDriveMotor.setPower(0);
         bottomLeftDriveMotor.setPower(0);
@@ -163,6 +166,7 @@ public class ArtemisHardwareMap {
         intakeMotor.setPower(0);
         conveyorMotor.setPower(0);
         shooterMotor.setPower(0);
+        shooterServo.setPower(0);
 
         armMotor.setPower(0);
 
@@ -226,10 +230,11 @@ public class ArtemisHardwareMap {
 
     /**
      * This method takes in 1 input: the X button
-     * Once the X button is pressed, we set the shooter motor to max power
+     * Once the X button is pressed, we set the shooter motor to max power and the shooter servo to max power
      * **/
     public void shootRings(int speed){
         shooterMotor.setPower(speed);
+        shooterServo.setPower(-speed);
     }
 
     /**
