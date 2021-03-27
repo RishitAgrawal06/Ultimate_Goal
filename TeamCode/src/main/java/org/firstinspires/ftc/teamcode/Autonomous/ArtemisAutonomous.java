@@ -376,30 +376,103 @@ public class ArtemisAutonomous extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime();
         //count: 27s
         //1. Move forwards half field 2s
+        //hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Moving Robot ","Forwards");
+            telemetry.update();
+        }
 
         //2. Strafe right a bit 1s
+        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+            telemetry.addData("Strafing ", "Right");
+            telemetry.update();
+        }
 
         //3. Shoot rings 4s
+        //hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while(runtime.seconds() < 4.0){
+            telemetry.addData("Shooting ","Rings");
+        }
 
         //4. turn 180 1.5s
+        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.5){
+            telemetry.addData("Turning ","Right");
+        }
 
         //5. move forwards and get rings and intake 4s
+        hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while(runtime.seconds() < 4.0){
+            telemetry.addData("Moving Robot Forwards and ", "intaking Rings");
+            telemetry.update();
+        }
 
         //6. turn 180 1.5
+        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.5){
+            telemetry.addData("Turning ","Right");
+        }
 
         //7. move forwards a bit  2s
+        //hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Moving Robot ", "Forwards");
+            telemetry.update();
+        }
 
         //8. shoot 4s
+        //hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while(runtime.seconds() < 4.0){
+            telemetry.addData("Shooting ","Rings");
+        }
 
         //9. move forwards half of field 2s
+        //hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Moving Robot ", "Forwards");
+            telemetry.update();
+        }
 
         //10. strafe right 1s
+        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+            telemetry.addData("Strafing ","Right");
+        }
 
         //11. drop wobble 1s
+        //hardwareMapInitialize.autonomousServoHandle(false);
+        runtime.reset();
+        while(runtime.seconds() < 3.0){
+            telemetry.addData("Dropping ","Wobble");
+        }
 
         //12. turn 180 1.5s
+        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.5){
+            telemetry.addData("Turning ","Right");
+        }
 
         //13. move half field 2s
+        //hardwareMapInitialize.autonomousMotorMove( false);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Moving Robot", "Backwards");
+            telemetry.update();
+        }
+        
         telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
