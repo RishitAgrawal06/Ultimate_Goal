@@ -187,7 +187,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         //count: 26s
 
         //1. Move forward till half of field 2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot ","Forwards");
@@ -195,7 +195,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //2. Strafe top right till reach box 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing ", "Right");
@@ -203,14 +203,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //3. Drop and release wobble goal(3s estimate)
-        //hardwareMapInitialize.autonomousServoHandle(true);
+        hardwareMapInitialize.autonomousServoHandle(true);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Dropping ","Wobble");
         }
 
         //4. Strafe bottom left to a bit left of wobble goal 2s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Strafing ","Bottom Left");
@@ -218,7 +218,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //5. Go back to start of field 2s
-        //hardwareMapInitialize.autonomousMotorMove( false);
+        hardwareMapInitialize.autonomousMotorMove( false);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Robot Moving ", "Backwards");
@@ -226,8 +226,8 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //6. Go a bit right and latch on to wobble goal(3s estimate)
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        //hardwareMapInitialize.autonomousServoHandle(false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing Right and ","latching on to wobble");
@@ -235,7 +235,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //7. Move forwards half of field 2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
               telemetry.addData("Moving Robot ", "Forwards");
@@ -243,7 +243,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //8. strafe top left 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
+        hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
               telemetry.addData("Strafing ", "Top Left");
@@ -251,21 +251,21 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //9. shoot rings 4s
-        //hardwareMapInitialize.autonomousMotorShoot();
+        hardwareMapInitialize.autonomousMotorShoot();
         runtime.reset();
         while(runtime.seconds() < 4.0){
               telemetry.addData("Shooting ","Rings");
         }
 
         //10. strafe right 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
               telemetry.addData("Strafing ","Right");
         }
 
         //11. Drop and release wobble goal(3s estimate)
-        //hardwareMapInitialize.autonomousServoHandle(false);
+        hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
         while(runtime.seconds() < 3.0){
           telemetry.addData("Dropping ","Wobble");
@@ -280,7 +280,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         //count: 25s
 
         //1. Move forward till 3/4 of field 3s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Moving Robot ","Forwards");
@@ -288,7 +288,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //2. Strafe right till reach box 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing Robot ","Right");
@@ -296,14 +296,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //3. Drop and release wobble goal 3s
-        //hardwareMapInitialize.autonomousServoHandle(true);
+        hardwareMapInitialize.autonomousServoHandle(true);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Dropping ","Wobble");
         }
 
         //4. Go back to start of field 3s
-        //hardwareMapInitialize.autonomousMotorMove( false);
+        hardwareMapInitialize.autonomousMotorMove( false);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Moving Robot", "Backwards");
@@ -311,8 +311,8 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //5. Go a bit right and latch on to wobble goal 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        //hardwareMapInitialize.autonomousServoHandle(false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing Right and ","latching on to wobble");
@@ -320,7 +320,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //6. Move forwards half of field 2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot ","Forwards");
@@ -328,7 +328,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //7. strafe right 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing Robot ","Right");
@@ -336,7 +336,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //8. shoot rings 4s
-        //hardwareMapInitialize.autonomousMotorShoot();
+        hardwareMapInitialize.autonomousMotorShoot();
         runtime.reset();
         while(runtime.seconds() < 4.0){
             telemetry.addData("Robot Shooting ","Rings");
@@ -344,7 +344,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //9. move forwards 1s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Moving Robot ", "Forwards");
@@ -352,14 +352,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //10. Drop and release wobble goal 3s
-        //hardwareMapInitialize.autonomousServoHandle(true);
+        hardwareMapInitialize.autonomousServoHandle(true);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Dropping ","Wobble");
         }
 
         //11. go back to launch line 2s
-        //hardwareMapInitialize.autonomousMotorMove( false);
+        hardwareMapInitialize.autonomousMotorMove( false);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot", "Backwards");
@@ -375,8 +375,9 @@ public class ArtemisAutonomous extends LinearOpMode {
     public void fourRings(){
         ElapsedTime runtime = new ElapsedTime();
         //count: 27s
+
         //1. Move forwards half field 2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot ","Forwards");
@@ -384,7 +385,7 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //2. Strafe right a bit 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing ", "Right");
@@ -392,14 +393,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //3. Shoot rings 4s
-        //hardwareMapInitialize.autonomousMotorShoot();
+        hardwareMapInitialize.autonomousMotorShoot();
         runtime.reset();
         while(runtime.seconds() < 4.0){
             telemetry.addData("Shooting ","Rings");
         }
 
         //4. turn 180 1.5s
-        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        hardwareMapInitialize.autonomousMotorTurn(true,false);
         runtime.reset();
         while(runtime.seconds() < 1.5){
             telemetry.addData("Turning ","Right");
@@ -415,14 +416,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //6. turn 180 1.5
-        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        hardwareMapInitialize.autonomousMotorTurn(true,false);
         runtime.reset();
         while(runtime.seconds() < 1.5){
             telemetry.addData("Turning ","Right");
         }
 
         //7. move forwards a bit  2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot ", "Forwards");
@@ -430,14 +431,14 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //8. shoot 4s
-        //hardwareMapInitialize.autonomousMotorShoot();
+        hardwareMapInitialize.autonomousMotorShoot();
         runtime.reset();
         while(runtime.seconds() < 4.0){
             telemetry.addData("Shooting ","Rings");
         }
 
         //9. move forwards half of field 2s
-        //hardwareMapInitialize.autonomousMotorMove(true);
+        hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot ", "Forwards");
@@ -445,28 +446,28 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
 
         //10. strafe right 1s
-        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
         runtime.reset();
         while(runtime.seconds() < 1.0){
             telemetry.addData("Strafing ","Right");
         }
 
         //11. drop wobble 1s
-        //hardwareMapInitialize.autonomousServoHandle(false);
+        hardwareMapInitialize.autonomousServoHandle(false);
         runtime.reset();
         while(runtime.seconds() < 3.0){
             telemetry.addData("Dropping ","Wobble");
         }
 
         //12. turn 180 1.5s
-        //hardwareMapInitialize.autonomousMotorTurn(true,false);
+        hardwareMapInitialize.autonomousMotorTurn(true,false);
         runtime.reset();
         while(runtime.seconds() < 1.5){
             telemetry.addData("Turning ","Right");
         }
 
         //13. move half field 2s
-        //hardwareMapInitialize.autonomousMotorMove( false);
+        hardwareMapInitialize.autonomousMotorMove( false);
         runtime.reset();
         while(runtime.seconds() < 2.0){
             telemetry.addData("Moving Robot", "Backwards");
