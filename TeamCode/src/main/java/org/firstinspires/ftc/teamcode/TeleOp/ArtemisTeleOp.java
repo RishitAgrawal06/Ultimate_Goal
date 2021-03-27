@@ -96,6 +96,10 @@ public class ArtemisTeleOp extends OpMode {
         else{
             telemetry.addData("Moving", "Not Moving");
         }
+        telemetry.addData("Top Left Power ", leftStickY + leftStickX + rightStickX);
+        telemetry.addData("Bottom Left Power ", leftStickY - leftStickX + rightStickX);
+        telemetry.addData("Top Right Power ", leftStickY - leftStickX - rightStickX);
+        telemetry.addData("Bottom Right Power ", leftStickY + leftStickX - rightStickX);
         hardwareMapInitialize.moveRobot(leftStickY,leftStickX,rightStickX);
 
         /**
