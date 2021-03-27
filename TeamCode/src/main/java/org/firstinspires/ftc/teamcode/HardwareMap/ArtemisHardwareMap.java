@@ -214,7 +214,7 @@ public class ArtemisHardwareMap {
      * Once the X button is pressed, we set the shooter motor to max power and the shooter servo to max power
      * **/
     public void shootRings(int speed){
-        shooterMotor.setPower(speed);
+        shooterMotor.setPower(speed*0.85);
         shooterServo.setPower(-speed);
     }
 

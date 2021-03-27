@@ -154,16 +154,21 @@ public class ArtemisAutonomous extends LinearOpMode {
                 telemetry.addData("Activating ", "Zero Rings Method");
                 telemetry.update();
                 zeroRings();
+                return;
             }
             else if(numberOfRings == 1){
                 telemetry.addData("Activating ", "One Rings Method");
                 telemetry.update();
-                oneRings();
+                //oneRings();
+                zeroRings();
+                return;
             }
             else{
                 telemetry.addData("Activating ", "Four Rings Method");
                 telemetry.update();
-                fourRings();
+                zeroRings();
+                //fourRings();
+                return;
             }
         }
 
@@ -194,82 +199,82 @@ public class ArtemisAutonomous extends LinearOpMode {
             telemetry.update();
         }
 
-        //2. Strafe top right till reach box 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing ", "Right");
-            telemetry.update();
-        }
-
-        //3. Drop and release wobble goal(3s estimate)
-        hardwareMapInitialize.autonomousServoHandle(true);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Dropping ","Wobble");
-        }
-
-        //4. Strafe bottom left to a bit left of wobble goal 2s
-        hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Strafing ","Bottom Left");
-            telemetry.update();
-        }
-
-        //5. Go back to start of field 2s
-        hardwareMapInitialize.autonomousMotorMove( false);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Robot Moving ", "Backwards");
-            telemetry.update();
-        }
-
-        //6. Go a bit right and latch on to wobble goal(3s estimate)
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing Right and ","latching on to wobble");
-            telemetry.update();
-        }
-
-        //7. Move forwards half of field 2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-              telemetry.addData("Moving Robot ", "Forwards");
-              telemetry.update();
-        }
-
-        //8. strafe top left 1s
-        hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-              telemetry.addData("Strafing ", "Top Left");
-              telemetry.update();
-        }
-
-        //9. shoot rings 4s
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds() < 4.0){
-              telemetry.addData("Shooting ","Rings");
-        }
-
-        //10. strafe right 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-              telemetry.addData("Strafing ","Right");
-        }
-
-        //11. Drop and release wobble goal(3s estimate)
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-          telemetry.addData("Dropping ","Wobble");
-        }
+//        //2. Strafe top right till reach box 1s
+//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        runtime.reset();
+//        while(runtime.seconds() < 1.0){
+//            telemetry.addData("Strafing ", "Right");
+//            telemetry.update();
+//        }
+//
+//        //3. Drop and release wobble goal(3s estimate)
+//        hardwareMapInitialize.autonomousServoHandle(true);
+//        runtime.reset();
+//        while(runtime.seconds() < 3.0){
+//            telemetry.addData("Dropping ","Wobble");
+//        }
+//
+//        //4. Strafe bottom left to a bit left of wobble goal 2s
+//        hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
+//        runtime.reset();
+//        while(runtime.seconds() < 2.0){
+//            telemetry.addData("Strafing ","Bottom Left");
+//            telemetry.update();
+//        }
+//
+//        //5. Go back to start of field 2s
+//        hardwareMapInitialize.autonomousMotorMove( false);
+//        runtime.reset();
+//        while(runtime.seconds() < 2.0){
+//            telemetry.addData("Robot Moving ", "Backwards");
+//            telemetry.update();
+//        }
+//
+//        //6. Go a bit right and latch on to wobble goal(3s estimate)
+//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        hardwareMapInitialize.autonomousServoHandle(false);
+//        runtime.reset();
+//        while(runtime.seconds() < 1.0){
+//            telemetry.addData("Strafing Right and ","latching on to wobble");
+//            telemetry.update();
+//        }
+//
+//        //7. Move forwards half of field 2s
+//        hardwareMapInitialize.autonomousMotorMove(true);
+//        runtime.reset();
+//        while(runtime.seconds() < 2.0){
+//              telemetry.addData("Moving Robot ", "Forwards");
+//              telemetry.update();
+//        }
+//
+//        //8. strafe top left 1s
+//        hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
+//        runtime.reset();
+//        while(runtime.seconds() < 1.0){
+//              telemetry.addData("Strafing ", "Top Left");
+//              telemetry.update();
+//        }
+//
+//        //9. shoot rings 4s
+//        hardwareMapInitialize.autonomousMotorShoot();
+//        runtime.reset();
+//        while(runtime.seconds() < 4.0){
+//              telemetry.addData("Shooting ","Rings");
+//        }
+//
+//        //10. strafe right 1s
+//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+//        runtime.reset();
+//        while(runtime.seconds() < 1.0){
+//              telemetry.addData("Strafing ","Right");
+//        }
+//
+//        //11. Drop and release wobble goal(3s estimate)
+//        hardwareMapInitialize.autonomousServoHandle(false);
+//        runtime.reset();
+//        while(runtime.seconds() < 3.0){
+//          telemetry.addData("Dropping ","Wobble");
+//        }
     }
 
     /**
