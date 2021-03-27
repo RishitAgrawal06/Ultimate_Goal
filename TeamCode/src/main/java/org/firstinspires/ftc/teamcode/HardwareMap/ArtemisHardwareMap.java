@@ -308,6 +308,7 @@ public class ArtemisHardwareMap {
         shooterMotor.setPower(1);
         conveyorMotor.setPower(1);
         intakeMotor.setPower(1);
+        shooterServo.setPower(-1);
     }
 
     /**
