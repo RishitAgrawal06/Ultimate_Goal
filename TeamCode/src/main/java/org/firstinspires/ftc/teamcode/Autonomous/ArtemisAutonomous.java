@@ -153,17 +153,17 @@ public class ArtemisAutonomous extends LinearOpMode {
             if (numberOfRings == 0) {
                 telemetry.addData("Activating ", "Zero Rings Method");
                 telemetry.update();
-//            zeroRings();
+                zeroRings();
             }
             else if(numberOfRings == 1){
                 telemetry.addData("Activating ", "One Rings Method");
                 telemetry.update();
-//            oneRings();
+                oneRings();
             }
             else{
                 telemetry.addData("Activating ", "Four Rings Method");
                 telemetry.update();
-//            fourRings();
+                fourRings();
             }
         }
 
@@ -185,58 +185,88 @@ public class ArtemisAutonomous extends LinearOpMode {
         ElapsedTime runtime = new ElapsedTime();
         telemetry.addData("Runtime: ",runtime.seconds()+"");
         //count: 26s
-//        //1. Move forward till half of field 2s
-//        while(runtime.seconds() < 2.0){
-//            hardwareMapInitialize.autonomousMotorMove(true);
-//        }
-//        runtime.reset();
-//        //3. Strafe top right till reach box 1s
-//        while(runtime.seconds() < 1.0){
-//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        }
-//        runtime.reset();
-//        //4. Drop and release wobble goal(3s estimate)
-//        hardwareMapInitialize.autonomousServoHandle(true);
-//        runtime.reset();
-//        //5. Strafe bottom left to a bit left of wobble goal 2s
-//        while(runtime.seconds() < 2.0){
-//            hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
-//        }
-//        runtime.reset();
-//        //6. Go back to start of field 2s
-//        while(runtime.seconds() < 2.0){
-//            hardwareMapInitialize.autonomousMotorMove( false);
-//        }
-//        runtime.reset();
-//        //7. Go a bit right and latch on to wobble goal(3s estimate)
-//        while(runtime.seconds() < 1.0){
-//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        }
-//        hardwareMapInitialize.autonomousServoHandle(false);
-//        runtime.reset();
-//        //8. Move forwards half of field 2s
-//        while(runtime.seconds() < 2.0){
-//            hardwareMapInitialize.autonomousMotorMove( true);
-//        }
-//        runtime.reset();
-//        //9. strafe top left 1s
-//        while(runtime.seconds() < 1.0){
-//            hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
-//        }
-//        runtime.reset();
-//        //10. shoot rings 4s
-//        while(runtime.seconds() < 4.0){
-//            hardwareMapInitialize.autonomousMotorShoot();
-//        }
-//        runtime.reset();
-//        //12. strafe right 1s
-//        while(runtime.seconds() < 1.0){
-//            hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        }
-//        runtime.reset();
-//        //13. Drop and release wobble goal(3s estimate)
-//        hardwareMapInitialize.autonomousServoHandle(false);
-//        runtime.reset();
+
+        //1. Move forward till half of field 2s
+        //hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Moving Robot ","Forwards");
+            telemetry.update();
+        }
+
+        //2. Strafe top right till reach box 1s
+        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+            telemetry.addData("Strafing ", "Right");
+            telemetry.update();
+        }
+
+        //3. Drop and release wobble goal(3s estimate)
+        //hardwareMapInitialize.autonomousServoHandle(true);
+        runtime.reset();
+
+        //4. Strafe bottom left to a bit left of wobble goal 2s
+        //hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Strafing ","Bottom Left");
+            telemetry.update();
+        }
+
+        //5. Go back to start of field 2s
+        //hardwareMapInitialize.autonomousMotorMove( false);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+            telemetry.addData("Strafing", "Top Right");
+            telemetry.update();
+        }
+
+        //6. Go a bit right and latch on to wobble goal(3s estimate)
+        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        //hardwareMapInitialize.autonomousServoHandle(false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+            telemetry.addData("Strafing Right and ","latching on to wobble");
+            telemetry.update();
+        }
+
+        //7. Move forwards half of field 2s
+        //hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while(runtime.seconds() < 2.0){
+              telemetry.addData("Moving Robot", "Forwards");
+              telemetry.update();
+        }
+
+        //8. strafe top left 1s
+        //hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+              telemetry.addData("Strafing", "Top Left");
+              telemetry.update();
+        }
+
+        //9. shoot rings 4s
+        //hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while(runtime.seconds() < 4.0){
+              telemetry.addData("Shooting","rings");
+        }
+
+        //10. strafe right 1s
+        //hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
+        runtime.reset();
+        while(runtime.seconds() < 1.0){
+              telemetry.addData("Strafing","right");
+        }
+
+        //11. Drop and release wobble goal(3s estimate)
+        //hardwareMapInitialize.autonomousServoHandle(false);
+        runtime.reset();
+        while(runtime.seconds() < 3.0){
+          telemetry.addData("Dropping","wobble");
+        }
     }
 
     /**

@@ -192,26 +192,7 @@ public class ArtemisHardwareMap {
         double bottomRightPower = leftStickY + leftStickX - rightStickX;
 
         /**
-         * If any value is greater than 1 then lets scale the power all the wheels from -1 to 1
-         * **/
-        if (Math.abs(topLeftPower) > 1 || Math.abs(bottomLeftPower) > 1 ||
-                Math.abs(topRightPower) > 1 || Math.abs(bottomRightPower) > 1 ) {
-            // Find the largest power
-            double max = 0;
-            max = Math.max(Math.abs(topLeftPower), Math.abs(bottomLeftPower));
-            max = Math.max(Math.abs(topRightPower), max);
-            max = Math.max(Math.abs(bottomRightPower), max);
-
-            // Divide everything by max (it's positive so we don't need to worry
-            // about signs)
-            topLeftPower /= max;
-            bottomLeftPower /= max;
-            topRightPower /= max;
-            bottomRightPower /= max;
-        }
-
-        /**
-         * Sets the wheel's power once scaled
+         * Sets the wheel's power 
          * **/
         topLeftDriveMotor.setPower(topLeftPower);
         bottomLeftDriveMotor.setPower(bottomLeftPower);
