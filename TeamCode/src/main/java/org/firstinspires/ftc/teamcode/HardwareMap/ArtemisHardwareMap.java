@@ -195,8 +195,8 @@ public class ArtemisHardwareMap {
          * Sets the wheel's power 
          * **/
         topLeftDriveMotor.setPower(topLeftPower);
-        bottomLeftDriveMotor.setPower(bottomLeftPower);
         topRightDriveMotor.setPower(topRightPower);
+        bottomLeftDriveMotor.setPower(bottomLeftPower);
         bottomRightDriveMotor.setPower(bottomRightPower);
     }
 
@@ -243,10 +243,10 @@ public class ArtemisHardwareMap {
      * This autonomous move method allows the robot to move forwards and backwards like a tank drive and is controlled by a boolean isForwards
      * **/
     public void autonomousMotorMove(boolean isForward){
-        double speed = isForward ? 0.5 : -0.5;
+        double speed = isForward ? 1 : -1;
         topLeftDriveMotor.setPower(speed);
-        bottomLeftDriveMotor.setPower(speed);
         topRightDriveMotor.setPower(speed);
+        bottomLeftDriveMotor.setPower(speed);
         bottomRightDriveMotor.setPower(speed);
     }
 

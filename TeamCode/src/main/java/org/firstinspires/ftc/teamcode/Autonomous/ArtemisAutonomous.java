@@ -194,10 +194,39 @@ public class ArtemisAutonomous extends LinearOpMode {
         //1. Move forward till half of field 2s
         hardwareMapInitialize.autonomousMotorMove(true);
         runtime.reset();
-        while(runtime.seconds() < 2.0){
+        while(runtime.seconds() < 0.3){
             telemetry.addData("Moving Robot ","Forwards");
             telemetry.update();
         }
+
+        //2. Turn a bit right
+        hardwareMapInitialize.autonomousMotorTurn(true,false);
+        runtime.reset();
+        while (runtime.seconds() <0.1){
+            telemetry.addData("Turning Robot ", "Right");
+        }
+
+        //3.Shoot
+        hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while(runtime.seconds()<5.0){
+            telemetry.addData("Robot Shooting ","Rings");
+        }
+//
+//        //4. reset by turning left
+//        hardwareMapInitialize.autonomousMotorTurn(false,true);
+//        runtime.reset();
+//        while(runtime.seconds() <0.5){
+//            telemetry.addData("Turning Robot " , "Left");
+//        }
+//
+        //5. Go a bit right
+        hardwareMapInitialize.autonomousMotorMove(true);
+        runtime.reset();
+        while (runtime.seconds() <0.1){
+            telemetry.addData("Robot Moving ","Forwards");
+        }
+        return;
 
 //        //2. Strafe top right till reach box 1s
 //        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
