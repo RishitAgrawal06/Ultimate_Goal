@@ -67,7 +67,7 @@ public class ArtemisHardwareMap {
     /**
      * This is the 1 hand servo and 1 arm motor of the robot
      * **/
-    public Servo handServo;
+    public CRServo handServo;
     public DcMotor armMotor;
 
     /**
@@ -99,7 +99,7 @@ public class ArtemisHardwareMap {
         shooterMotor = hwMap.get(DcMotor.class,"Shooter-Motor");
         shooterServo = hwMap.get(CRServo.class,"Shooter-Servo");
 
-        handServo = hwMap.get(Servo.class, "Hand-Servo");
+        handServo = hwMap.get(CRServo.class, "Hand-Servo");
         armMotor = hwMap.get(DcMotor.class, "Arm-Motor");
         /**
          * Allow the 4 wheel motors to be run without encoders since we are doing a time based autonomous
@@ -173,7 +173,7 @@ public class ArtemisHardwareMap {
         /**
          * The 1 servo need to be initialized at the midpoint(0.5) using servo_name.setPosition()
          * **/
-        handServo.setPosition(1);
+        handServo.setPower(1);
     }
 
     /**
@@ -231,7 +231,7 @@ public class ArtemisHardwareMap {
      * If the right bumper is pressed then the servo hand will loosen else it will tighten
      * **/
     public void changeHandPosition(int position){
-        handServo.setPosition(position);
+        handServo.setPower(position);
     }
 
     /**
@@ -321,12 +321,12 @@ public class ArtemisHardwareMap {
                 armMotor.setPower(-0.1);
             }
             while(runtime.seconds()<3.0){
-                handServo.setPosition(0);
+                handServo.setPower(0);
             }
         }
         else{
             while(runtime.seconds()<1.5){
-                handServo.setPosition(1);
+                handServo.setPower(1);
             }
             while (runtime.seconds()<1.5){
                 armMotor.setPower(0.1);

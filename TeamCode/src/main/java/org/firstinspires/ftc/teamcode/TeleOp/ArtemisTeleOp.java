@@ -126,7 +126,7 @@ public class ArtemisTeleOp extends OpMode {
             hardwareMapInitialize.moveArm(0);
         }
         telemetry.addData("Servo ", loose ? "Loosened" : "Tightened");
-        hardwareMapInitialize.changeHandPosition(loose ? 0 : 1);
+        hardwareMapInitialize.changeHandPosition(loose ? -1 : 1);
     }
 
     /**
