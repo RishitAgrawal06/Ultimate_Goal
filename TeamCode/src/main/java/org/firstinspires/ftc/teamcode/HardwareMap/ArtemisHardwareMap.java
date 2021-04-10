@@ -286,9 +286,9 @@ public class ArtemisHardwareMap {
      * **/
     public void autonomousMotorTurn(double right, double left){
             topLeftDriveMotor.setPower(left);
-            bottomLeftDriveMotor.setPower(left);
+            bottomLeftDriveMotor.setPower(right);
             topRightDriveMotor.setPower(right);
-            bottomRightDriveMotor.setPower(right);
+            bottomRightDriveMotor.setPower(left);
     }
 
     /**
