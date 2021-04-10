@@ -86,7 +86,7 @@ public class ArtemisTeleOp extends OpMode {
          * Gamepad inputs for moving and turning the robot
          * **/
         double leftStickY = -gamepad1.left_stick_y;
-        double leftStickX =  gamepad1.left_stick_x * 1.5;
+        double leftStickX =  -gamepad1.left_stick_x * 1.5;
         double rightStickX = gamepad1.right_stick_x;
         if(leftStickY > 0){
             telemetry.addData("Moving","Forwards");
@@ -97,8 +97,8 @@ public class ArtemisTeleOp extends OpMode {
             telemetry.addData("Moving", "Not Moving");
         }
         telemetry.addData("Top Left Power ", leftStickY + leftStickX + rightStickX);
-        telemetry.addData("Bottom Left Power ", leftStickY - leftStickX + rightStickX);
-        telemetry.addData("Top Right Power ", leftStickY - leftStickX - rightStickX);
+        telemetry.addData("Bottom Left Power ", leftStickY + leftStickX + rightStickX);
+        telemetry.addData("Top Right Power ", leftStickY + leftStickX - rightStickX);
         telemetry.addData("Bottom Right Power ", leftStickY + leftStickX - rightStickX);
         hardwareMapInitialize.moveRobot(leftStickY,leftStickX,rightStickX);
 

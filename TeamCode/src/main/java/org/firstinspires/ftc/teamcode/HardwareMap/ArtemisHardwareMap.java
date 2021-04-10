@@ -242,8 +242,7 @@ public class ArtemisHardwareMap {
     /**
      * This autonomous move method allows the robot to move forwards and backwards like a tank drive and is controlled by a boolean isForwards
      * **/
-    public void autonomousMotorMove(boolean isForward){
-        double speed = isForward ? 1 : -1;
+    public void autonomousMotorMove(double speed){
         topLeftDriveMotor.setPower(speed);
         topRightDriveMotor.setPower(speed);
         bottomLeftDriveMotor.setPower(speed);
@@ -318,7 +317,7 @@ public class ArtemisHardwareMap {
         ElapsedTime runtime = new ElapsedTime();
         if(drop){
             while(runtime.seconds()<1.5){
-                armMotor.setPower(-0.1);
+                armMotor.setPower(-1);
             }
             while(runtime.seconds()<3.0){
                 handServo.setPower(0);

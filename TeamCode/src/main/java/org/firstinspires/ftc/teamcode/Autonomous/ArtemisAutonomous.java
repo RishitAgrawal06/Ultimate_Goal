@@ -92,6 +92,7 @@ public class ArtemisAutonomous extends LinearOpMode {
     private static final String LABEL_SECOND_ELEMENT = "Single";
     private TFObjectDetector tfod;
     private int numberOfRings = 0;
+    private ElapsedTime runtime = new ElapsedTime();
 
     /**
      * This method initializes hardware and logs it if it was successful
@@ -137,7 +138,7 @@ public class ArtemisAutonomous extends LinearOpMode {
      * Based on the number of rings the robot will call its respective method
      * **/
     @Override
-    public void runOpMode(){
+    public void runOpMode() throws InterruptedException {
 
         /**
          * Initialize Hardware functions and Software functions called
@@ -149,28 +150,42 @@ public class ArtemisAutonomous extends LinearOpMode {
         waitForStart();
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
         telemetry.update();
-        while(opModeIsActive()){
-            if (numberOfRings == 0) {
-                telemetry.addData("Activating ", "Zero Rings Method");
-                telemetry.update();
-                zeroRings();
-                return;
-            }
-            else if(numberOfRings == 1){
-                telemetry.addData("Activating ", "One Rings Method");
-                telemetry.update();
-                //oneRings();
-                zeroRings();
-                return;
-            }
-            else{
-                telemetry.addData("Activating ", "Four Rings Method");
-                telemetry.update();
-                zeroRings();
-                //fourRings();
-                return;
-            }
+
+        //1. Move forward till half of field 0.2s
+        hardwareMapInitialize.autonomousMotorMove(0.5);
+        runtime.reset();
+        while( opModeIsActive() && runtime.seconds() < 0.2){
+            telemetry.addData("Moving Robot ","Forwards");
+            telemetry.update();
         }
+
+        //2. Shoot all 3 rings
+        hardwareMapInitialize.autonomousMotorMove(0.0);
+        hardwareMapInitialize.autonomousMotorShoot();
+        runtime.reset();
+        while( opModeIsActive() && runtime.seconds()<5){
+            telemetry.addData("Shooting Rings ","Mid Goal");
+            telemetry.update();
+        }
+
+        telemetry.addData("Path", "Complete");
+        telemetry.update();
+        sleep(1000);
+
+
+//        //3 Turn robot right
+//        hardwareMapInitialize.autonomousMotorTurn(true,false);
+//        runtime.reset();
+//        while (runtime.seconds()<0.1){
+//            telemetry.addData("Turning Robot ","Right");
+//        }
+//
+//        //4 Yeet Wobble Goal
+//        hardwareMapInitialize.autonomousServoHandle(true);
+//        runtime.reset();
+//        while (runtime.seconds()<2){
+//            telemetry.addData("Yeeting Wobble ","Right");
+//        }
 
         /**
          * Calls stop function when Opmode goes from active to not active
@@ -187,328 +202,21 @@ public class ArtemisAutonomous extends LinearOpMode {
      * This method is called when Tensorflow detects no rings on the starter stack
      * **/
     public void zeroRings(){
-        ElapsedTime runtime = new ElapsedTime();
-        telemetry.addData("Runtime: ",runtime.seconds()+"");
-        //count: 26s
-
-        //1. Move forward till half of field 2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 0.3){
-            telemetry.addData("Moving Robot ","Forwards");
-            telemetry.update();
-        }
-
-        //2. Turn a bit right
-        hardwareMapInitialize.autonomousMotorTurn(true,false);
-        runtime.reset();
-        while (runtime.seconds() <0.1){
-            telemetry.addData("Turning Robot ", "Right");
-        }
-
-        //3.Shoot
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds()<5.0){
-            telemetry.addData("Robot Shooting ","Rings");
-        }
-//
-//        //4. reset by turning left
-//        hardwareMapInitialize.autonomousMotorTurn(false,true);
-//        runtime.reset();
-//        while(runtime.seconds() <0.5){
-//            telemetry.addData("Turning Robot " , "Left");
-//        }
-//
-        //5. Go a bit right
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while (runtime.seconds() <0.1){
-            telemetry.addData("Robot Moving ","Forwards");
-        }
-        return;
-
-//        //2. Strafe top right till reach box 1s
-//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        runtime.reset();
-//        while(runtime.seconds() < 1.0){
-//            telemetry.addData("Strafing ", "Right");
-//            telemetry.update();
-//        }
-//
-//        //3. Drop and release wobble goal(3s estimate)
-//        hardwareMapInitialize.autonomousServoHandle(true);
-//        runtime.reset();
-//        while(runtime.seconds() < 3.0){
-//            telemetry.addData("Dropping ","Wobble");
-//        }
-//
-//        //4. Strafe bottom left to a bit left of wobble goal 2s
-//        hardwareMapInitialize.autonomousMotorStrafe(false,true,false,false);
-//        runtime.reset();
-//        while(runtime.seconds() < 2.0){
-//            telemetry.addData("Strafing ","Bottom Left");
-//            telemetry.update();
-//        }
-//
-//        //5. Go back to start of field 2s
-//        hardwareMapInitialize.autonomousMotorMove( false);
-//        runtime.reset();
-//        while(runtime.seconds() < 2.0){
-//            telemetry.addData("Robot Moving ", "Backwards");
-//            telemetry.update();
-//        }
-//
-//        //6. Go a bit right and latch on to wobble goal(3s estimate)
-//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        hardwareMapInitialize.autonomousServoHandle(false);
-//        runtime.reset();
-//        while(runtime.seconds() < 1.0){
-//            telemetry.addData("Strafing Right and ","latching on to wobble");
-//            telemetry.update();
-//        }
-//
-//        //7. Move forwards half of field 2s
-//        hardwareMapInitialize.autonomousMotorMove(true);
-//        runtime.reset();
-//        while(runtime.seconds() < 2.0){
-//              telemetry.addData("Moving Robot ", "Forwards");
-//              telemetry.update();
-//        }
-//
-//        //8. strafe top left 1s
-//        hardwareMapInitialize.autonomousMotorStrafe(true,false,false,false);
-//        runtime.reset();
-//        while(runtime.seconds() < 1.0){
-//              telemetry.addData("Strafing ", "Top Left");
-//              telemetry.update();
-//        }
-//
-//        //9. shoot rings 4s
-//        hardwareMapInitialize.autonomousMotorShoot();
-//        runtime.reset();
-//        while(runtime.seconds() < 4.0){
-//              telemetry.addData("Shooting ","Rings");
-//        }
-//
-//        //10. strafe right 1s
-//        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-//        runtime.reset();
-//        while(runtime.seconds() < 1.0){
-//              telemetry.addData("Strafing ","Right");
-//        }
-//
-//        //11. Drop and release wobble goal(3s estimate)
-//        hardwareMapInitialize.autonomousServoHandle(false);
-//        runtime.reset();
-//        while(runtime.seconds() < 3.0){
-//          telemetry.addData("Dropping ","Wobble");
-//        }
+        
     }
 
     /**
      * This method is called when Tensorflow detects 1 ring on the starter stack
      * **/
     public void oneRings(){
-        ElapsedTime runtime = new ElapsedTime();
-        //count: 25s
 
-        //1. Move forward till 3/4 of field 3s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Moving Robot ","Forwards");
-            telemetry.update();
-        }
-
-        //2. Strafe right till reach box 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing Robot ","Right");
-            telemetry.update();
-        }
-
-        //3. Drop and release wobble goal 3s
-        hardwareMapInitialize.autonomousServoHandle(true);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Dropping ","Wobble");
-        }
-
-        //4. Go back to start of field 3s
-        hardwareMapInitialize.autonomousMotorMove( false);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Moving Robot", "Backwards");
-            telemetry.update();
-        }
-
-        //5. Go a bit right and latch on to wobble goal 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing Right and ","latching on to wobble");
-            telemetry.update();
-        }
-
-        //6. Move forwards half of field 2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot ","Forwards");
-            telemetry.update();
-        }
-
-        //7. strafe right 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing Robot ","Right");
-            telemetry.update();
-        }
-
-        //8. shoot rings 4s
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds() < 4.0){
-            telemetry.addData("Robot Shooting ","Rings");
-            telemetry.update();
-        }
-
-        //9. move forwards 1s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Moving Robot ", "Forwards");
-            telemetry.update();
-        }
-
-        //10. Drop and release wobble goal 3s
-        hardwareMapInitialize.autonomousServoHandle(true);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Dropping ","Wobble");
-        }
-
-        //11. go back to launch line 2s
-        hardwareMapInitialize.autonomousMotorMove( false);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot", "Backwards");
-            telemetry.update();
-        }
-
-        telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
     /**
      * This method is called when Tensorflow detects 4 rings on the starter stack
      * **/
     public void fourRings(){
-        ElapsedTime runtime = new ElapsedTime();
-        //count: 27s
 
-        //1. Move forwards half field 2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot ","Forwards");
-            telemetry.update();
-        }
-
-        //2. Strafe right a bit 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing ", "Right");
-            telemetry.update();
-        }
-
-        //3. Shoot rings 4s
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds() < 4.0){
-            telemetry.addData("Shooting ","Rings");
-        }
-
-        //4. turn 180 1.5s
-        hardwareMapInitialize.autonomousMotorTurn(true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.5){
-            telemetry.addData("Turning ","Right");
-        }
-
-        //5. move forwards and get rings and intake 4s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds() < 4.0){
-            telemetry.addData("Moving Robot Forwards and ", "intaking Rings");
-            telemetry.update();
-        }
-
-        //6. turn 180 1.5
-        hardwareMapInitialize.autonomousMotorTurn(true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.5){
-            telemetry.addData("Turning ","Right");
-        }
-
-        //7. move forwards a bit  2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot ", "Forwards");
-            telemetry.update();
-        }
-
-        //8. shoot 4s
-        hardwareMapInitialize.autonomousMotorShoot();
-        runtime.reset();
-        while(runtime.seconds() < 4.0){
-            telemetry.addData("Shooting ","Rings");
-        }
-
-        //9. move forwards half of field 2s
-        hardwareMapInitialize.autonomousMotorMove(true);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot ", "Forwards");
-            telemetry.update();
-        }
-
-        //10. strafe right 1s
-        hardwareMapInitialize.autonomousMotorStrafe(false,false,true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.0){
-            telemetry.addData("Strafing ","Right");
-        }
-
-        //11. drop wobble 1s
-        hardwareMapInitialize.autonomousServoHandle(false);
-        runtime.reset();
-        while(runtime.seconds() < 3.0){
-            telemetry.addData("Dropping ","Wobble");
-        }
-
-        //12. turn 180 1.5s
-        hardwareMapInitialize.autonomousMotorTurn(true,false);
-        runtime.reset();
-        while(runtime.seconds() < 1.5){
-            telemetry.addData("Turning ","Right");
-        }
-
-        //13. move half field 2s
-        hardwareMapInitialize.autonomousMotorMove( false);
-        runtime.reset();
-        while(runtime.seconds() < 2.0){
-            telemetry.addData("Moving Robot", "Backwards");
-            telemetry.update();
-        }
-        
-        telemetry.addData("Runtime: ",runtime.seconds()+"");
     }
 
     /**
