@@ -295,8 +295,9 @@ public class ArtemisHardwareMap {
      * This autonomous shoot method allows the robot to shoot its rings out.
      * It moves the shooter, conveyor, and intake so that all the rings are transported and shot.
      * **/
-    public void autonomousMotorShoot(double speed){
+    public void autonomousMotorShoot(double speed) throws InterruptedException {
         shooterMotor.setPower(speed);
+        Thread.sleep(500);
         conveyorMotor.setPower(speed);
         intakeMotor.setPower(speed);
         shooterServo.setPower(-1);
