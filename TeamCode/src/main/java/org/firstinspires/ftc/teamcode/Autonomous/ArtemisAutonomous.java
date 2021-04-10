@@ -151,45 +151,53 @@ public class ArtemisAutonomous extends LinearOpMode {
         telemetry.addData("Robot Status Autonomous: ", "Is in Play Mode");
         telemetry.update();
 
-        //1. Move forward till half of field 0.2s
-        hardwareMapInitialize.autonomousMotorMove(0.5);
-        runtime.reset();
-        while( opModeIsActive() && runtime.seconds() < 0.2){
-            telemetry.addData("Moving Robot ","Forwards");
+        if(numberOfRings == 0){
+
+        }
+        else if(numberOfRings == 1){
+            //1. Move forward till half of field 0.2s
+            hardwareMapInitialize.autonomousMotorMove(0.5);
+            runtime.reset();
+            while( opModeIsActive() && runtime.seconds() < 0.2){
+                telemetry.addData("Moving Robot ","Forwards");
+                telemetry.update();
+            }
+            sleep(1000);
+
+            //2. Shoot all 3 rings
+            hardwareMapInitialize.autonomousMotorMove(0.0);
+            hardwareMapInitialize.autonomousMotorShoot(1.0);
+            runtime.reset();
+            while( opModeIsActive() && runtime.seconds()<5){
+                telemetry.addData("Shooting Rings ","Mid Goal");
+                telemetry.update();
+            }
+            sleep(1000);
+
+            //3 Turn robot right
+            hardwareMapInitialize.autonomousMotorShoot(0);
+            hardwareMapInitialize.autonomousMotorTurn(0.5,0);
+            runtime.reset();
+            while (runtime.seconds()<0.1){
+                telemetry.addData("Turning Robot ","Right");
+            }
+            sleep(1000);
+
+            //4. Place Wobble Goal
+            hardwareMapInitialize.autonomousMotorTurn(0,0);
+            hardwareMapInitialize.autonomousServoHandle(true);
+            runtime.reset();
+            while (runtime.seconds()<2){
+                telemetry.addData("Yeeting Wobble ","Right");
+            }
+
+            telemetry.addData("Path", "Complete");
             telemetry.update();
+            sleep(1000);
         }
-        sleep(1000);
-
-        //2. Shoot all 3 rings
-        hardwareMapInitialize.autonomousMotorMove(0.0);
-        hardwareMapInitialize.autonomousMotorShoot(1.0);
-        runtime.reset();
-        while( opModeIsActive() && runtime.seconds()<5){
-            telemetry.addData("Shooting Rings ","Mid Goal");
-            telemetry.update();
+        else if(numberOfRings ==4){
+            
         }
-        sleep(1000);
-
-        //3 Turn robot right
-        hardwareMapInitialize.autonomousMotorShoot(0);
-        hardwareMapInitialize.autonomousMotorTurn(0.5,0);
-        runtime.reset();
-        while (runtime.seconds()<0.1){
-            telemetry.addData("Turning Robot ","Right");
-        }
-        sleep(1000);
-
-        //4. Place Wobble Goal
-        hardwareMapInitialize.autonomousMotorTurn(0,0);
-        hardwareMapInitialize.autonomousServoHandle(true);
-        runtime.reset();
-        while (runtime.seconds()<2){
-            telemetry.addData("Yeeting Wobble ","Right");
-        }
-
-        telemetry.addData("Path", "Complete");
-        telemetry.update();
-        sleep(1000);
 
 
         /**
