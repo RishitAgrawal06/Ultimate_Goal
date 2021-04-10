@@ -310,7 +310,7 @@ public class ArtemisHardwareMap {
         ElapsedTime runtime = new ElapsedTime();
         if(drop){
             while(runtime.seconds()<1.5){
-                armMotor.setPower(-0.5);
+                armMotor.setPower(-1);
             }
             while(runtime.seconds()<3.0){
                 handServo.setPower(0);

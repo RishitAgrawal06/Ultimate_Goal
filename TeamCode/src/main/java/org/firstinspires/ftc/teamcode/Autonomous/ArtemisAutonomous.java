@@ -172,7 +172,7 @@ public class ArtemisAutonomous extends LinearOpMode {
 
         //3 Move robot right
         hardwareMapInitialize.autonomousMotorShoot(0);
-        hardwareMapInitialize.autonomousMotorTurn(0.5,0);
+        hardwareMapInitialize.autonomousMotorTurn(0.04  ,0);
         runtime.reset();
         while (runtime.seconds()<0.5){
             telemetry.addData("Moving Robot ","Right");
@@ -180,7 +180,17 @@ public class ArtemisAutonomous extends LinearOpMode {
         }
         sleep(1000);
 
+        //4. Move robot a bit forwards
+        hardwareMapInitialize.autonomousMotorMove(0.1);
+        runtime.reset();
+        while (runtime.seconds()<0.1){
+            telemetry.addData("Moving Robot ","Forwards");
+            telemetry.update();
+        }
+        sleep(1000);
+
         //4. Place Wobble Goal
+        hardwareMapInitialize.autonomousMotorMove(0);
         hardwareMapInitialize.autonomousMotorTurn(0,0);
         hardwareMapInitialize.autonomousServoHandle(true);
         runtime.reset();
