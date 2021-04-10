@@ -285,10 +285,10 @@ public class ArtemisHardwareMap {
      * is specified via boolean variables
      * **/
     public void autonomousMotorTurn(double right, double left){
-            topLeftDriveMotor.setPower(left);
-            bottomLeftDriveMotor.setPower(left);
-            topRightDriveMotor.setPower(right);
-            bottomRightDriveMotor.setPower(right);
+        topLeftDriveMotor.setPower(left);
+        bottomLeftDriveMotor.setPower(right);
+        topRightDriveMotor.setPower(right);
+        bottomRightDriveMotor.setPower(left);
     }
 
     /**
