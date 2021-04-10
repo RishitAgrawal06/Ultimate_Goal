@@ -284,29 +284,21 @@ public class ArtemisHardwareMap {
      * This autonomous turn method allows the robot to turn with power 0.5 and the direction
      * is specified via boolean variables
      * **/
-    public void autonomousMotorTurn(boolean right, boolean left){
-        double turnPower = 0.5;
-        if(right){
-            topLeftDriveMotor.setPower(turnPower);
-            bottomLeftDriveMotor.setPower(turnPower);
-            topRightDriveMotor.setPower(0);
-            bottomRightDriveMotor.setPower(0);
-        }else if(left){
-            topLeftDriveMotor.setPower(0);
-            bottomLeftDriveMotor.setPower(0);
-            topRightDriveMotor.setPower(turnPower);
-            bottomRightDriveMotor.setPower(turnPower);
-        }
+    public void autonomousMotorTurn(double right, double left){
+            topLeftDriveMotor.setPower(left);
+            bottomLeftDriveMotor.setPower(left);
+            topRightDriveMotor.setPower(right);
+            bottomRightDriveMotor.setPower(right);
     }
 
     /**
      * This autonomous shoot method allows the robot to shoot its rings out.
      * It moves the shooter, conveyor, and intake so that all the rings are transported and shot.
      * **/
-    public void autonomousMotorShoot(){
-        shooterMotor.setPower(1);
-        conveyorMotor.setPower(1);
-        intakeMotor.setPower(1);
+    public void autonomousMotorShoot(double speed){
+        shooterMotor.setPower(speed);
+        conveyorMotor.setPower(speed);
+        intakeMotor.setPower(speed);
         shooterServo.setPower(-1);
     }
 
@@ -317,7 +309,7 @@ public class ArtemisHardwareMap {
         ElapsedTime runtime = new ElapsedTime();
         if(drop){
             while(runtime.seconds()<1.5){
-                armMotor.setPower(-1);
+                armMotor.setPower(-0.5);
             }
             while(runtime.seconds()<3.0){
                 handServo.setPower(0);
@@ -325,7 +317,7 @@ public class ArtemisHardwareMap {
         }
         else{
             while(runtime.seconds()<1.5){
-                handServo.setPower(1);
+                handServo.setPower(0.5);
             }
             while (runtime.seconds()<1.5){
                 armMotor.setPower(0.1);

@@ -158,34 +158,39 @@ public class ArtemisAutonomous extends LinearOpMode {
             telemetry.addData("Moving Robot ","Forwards");
             telemetry.update();
         }
+        sleep(1000);
 
         //2. Shoot all 3 rings
         hardwareMapInitialize.autonomousMotorMove(0.0);
-        hardwareMapInitialize.autonomousMotorShoot();
+        hardwareMapInitialize.autonomousMotorShoot(1.0);
         runtime.reset();
         while( opModeIsActive() && runtime.seconds()<5){
             telemetry.addData("Shooting Rings ","Mid Goal");
             telemetry.update();
+        }
+        sleep(1000);
+
+        //3 Turn robot right
+        hardwareMapInitialize.autonomousMotorShoot(0);
+        hardwareMapInitialize.autonomousMotorTurn(0.5,0);
+        runtime.reset();
+        while (runtime.seconds()<0.1){
+            telemetry.addData("Turning Robot ","Right");
+        }
+        sleep(1000);
+
+        //4. Place Wobble Goal
+        hardwareMapInitialize.autonomousMotorTurn(0,0);
+        hardwareMapInitialize.autonomousServoHandle(true);
+        runtime.reset();
+        while (runtime.seconds()<2){
+            telemetry.addData("Yeeting Wobble ","Right");
         }
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
         sleep(1000);
 
-
-//        //3 Turn robot right
-//        hardwareMapInitialize.autonomousMotorTurn(true,false);
-//        runtime.reset();
-//        while (runtime.seconds()<0.1){
-//            telemetry.addData("Turning Robot ","Right");
-//        }
-//
-//        //4 Yeet Wobble Goal
-//        hardwareMapInitialize.autonomousServoHandle(true);
-//        runtime.reset();
-//        while (runtime.seconds()<2){
-//            telemetry.addData("Yeeting Wobble ","Right");
-//        }
 
         /**
          * Calls stop function when Opmode goes from active to not active
@@ -202,7 +207,7 @@ public class ArtemisAutonomous extends LinearOpMode {
      * This method is called when Tensorflow detects no rings on the starter stack
      * **/
     public void zeroRings(){
-        
+
     }
 
     /**
